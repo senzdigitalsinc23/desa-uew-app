@@ -1,0 +1,22 @@
+[
+  {
+    "id": "admin-001",
+    "name": "System Administrator",
+    "email": "admin@uew.edu.gh",
+    "password": "admin123",
+    "role": "admin",
+    "department": "Distance Learning",
+    "phone": "+233 24 000 0000",
+    "createdAt": "2024-01-01"
+  },
+  {
+    "id": "staff-001",
+    "name": "Test Staff Member",
+    "email": "staff@uew.edu.gh",
+    "password": "staff123",
+    "role": "staff",
+    "department": "Registrar",
+    "phone": "+233 20 000 0000",
+    "createdAt": "2024-01-01"
+  }
+]

@@ -1,0 +1,1100 @@
+[
+  {
+    "id": "greater-accra",
+    "name": "Greater Accra Region",
+    "shortName": "Greater Accra",
+    "capital": "Accra",
+    "code": "GAR",
+    "description": "Greater Accra regional study centers serving distance learners across the capital and metropolitan districts.",
+    "programs": [
+      {
+        "id": "gar-bed-basic",
+        "title": "B.Ed Basic Education (Upper Primary & JHS)",
+        "department": "Department of Basic Education",
+        "level": "Level 100 - 400",
+        "centerIds": ["gar-accra-coe", "gar-st-thomas", "gar-odorgonno"]
+      },
+      {
+        "id": "gar-bed-early",
+        "title": "B.Ed Early Childhood Education",
+        "department": "Department of Early Childhood Education",
+        "level": "Level 100 - 400",
+        "centerIds": ["gar-accra-coe", "gar-odorgonno"]
+      },
+      {
+        "id": "gar-bsc-math",
+        "title": "B.Sc Mathematics Education",
+        "department": "Department of Mathematics Education",
+        "level": "Level 100 - 400",
+        "centerIds": ["gar-accra-coe", "gar-st-thomas"]
+      },
+      {
+        "id": "gar-post-dip",
+        "title": "Post-Diploma B.Ed Educational Administration",
+        "department": "Department of Educational Leadership",
+        "level": "Level 300 - 400",
+        "centerIds": ["gar-accra-coe", "gar-st-thomas", "gar-odorgonno"]
+      },
+      {
+        "id": "gar-dip-edu",
+        "title": "Diploma in Education",
+        "department": "Faculty of Educational Studies",
+        "level": "Level 100 - 200",
+        "centerIds": ["gar-accra-coe", "gar-st-thomas"]
+      }
+    ],
+    "centers": [
+      {
+        "id": "gar-accra-coe",
+        "name": "Accra College of Education Study Center",
+        "premises": "Accra College of Education Campus, East Legon",
+        "city": "East Legon, Accra",
+        "landmark": "Near UPSA and Trinity Theological Seminary",
+        "schedule": "Saturdays & Sundays (7:30 AM - 4:30 PM)",
+        "coordinator": {
+          "name": "Dr. Emmanuel K. Ofori",
+          "title": "Study Center Coordinator",
+          "phone": "+233 24 412 3456",
+          "email": "accra.center@uew.edu.gh",
+          "office": "Administration Complex, Room 14 (Ground Floor)",
+          "hours": "Fridays 2:00 PM - 6:00 PM | Saturdays 8:00 AM - 4:00 PM"
+        },
+        "nearbyHotels": [
+          { "name": "Academic Heights Guest Lodge", "distance": "600m from campus", "rate": "GH₵ 180 - 260 / night", "phone": "+233 20 555 1234", "rating": "4.6" },
+          { "name": "East Legon Executive Suites", "distance": "1.2km from campus", "rate": "GH₵ 350 - 500 / night", "phone": "+233 24 888 7766", "rating": "4.8" },
+          { "name": "Trinity Hostels & Guest House", "distance": "400m from campus", "rate": "GH₵ 120 - 180 / night", "phone": "+233 50 123 4567", "rating": "4.2" }
+        ],
+        "nearbyHealth": [
+          { "name": "University of Ghana Hospital (Legon)", "distance": "2.2km", "type": "24/7 Emergency & General Hospital", "phone": "+233 30 250 1111" },
+          { "name": "East Legon Medical Centre", "distance": "900m", "type": "Specialist Clinic & Pharmacy", "phone": "+233 30 254 9900" }
+        ],
+        "nearbyRestaurants": [
+          { "name": "AcCE Campus Canteen", "distance": "On Campus", "specialty": "Waakye, Jollof, Banku with Tilapia", "openHours": "7:00 AM - 5:30 PM" },
+          { "name": "Starbites Restaurant Legon", "distance": "1.1km", "specialty": "Continental & Local Meals, Fresh Juices", "openHours": "8:00 AM - 10:00 PM" }
+        ]
+      },
+      {
+        "id": "gar-st-thomas",
+        "name": "St. Thomas Aquinas SHS Study Center",
+        "premises": "St. Thomas Aquinas Senior High School, Cantonments",
+        "city": "Cantonments, Accra",
+        "landmark": "Opposite Civil Service Training School",
+        "schedule": "Saturdays & Sundays (8:00 AM - 5:00 PM)",
+        "coordinator": {
+          "name": "Mrs. Beatrice Mensah-Armah",
+          "title": "Study Center Coordinator",
+          "phone": "+233 24 987 6543",
+          "email": "cantonments.center@uew.edu.gh",
+          "office": "Science Block, 1st Floor Staff Lounge",
+          "hours": "Saturdays 7:30 AM - 4:30 PM | Sundays 12:00 PM - 4:00 PM"
+        },
+        "nearbyHotels": [
+          { "name": "Cantonments City View Lodge", "distance": "900m", "rate": "GH₵ 220 - 320 / night", "phone": "+233 27 776 5432", "rating": "4.5" },
+          { "name": "Osu Oxford Inn", "distance": "1.8km", "rate": "GH₵ 280 - 400 / night", "phone": "+233 24 333 2211", "rating": "4.4" }
+        ],
+        "nearbyHealth": [
+          { "name": "Police Hospital (Cantonments)", "distance": "1.4km", "type": "Full Service Hospital / Emergency", "phone": "+233 30 277 3900" },
+          { "name": "Nyaho Medical Centre (Airport)", "distance": "2.5km", "type": "Private 24-Hour Hospital", "phone": "+233 30 708 6490" }
+        ],
+        "nearbyRestaurants": [
+          { "name": "Aquinas Teachers' Cafeteria", "distance": "On Campus", "specialty": "Hot Hausa Koko, Red Red (Gob3), Fufu", "openHours": "7:30 AM - 4:00 PM" },
+          { "name": "Papaye Fast Foods (Osu)", "distance": "1.6km", "specialty": "Fried Rice, Broasted Chicken, Chips", "openHours": "9:00 AM - 11:00 PM" }
+        ]
+      },
+      {
+        "id": "gar-odorgonno",
+        "name": "Odorgonno SHS Study Center",
+        "premises": "Odorgonno Senior High School Campus, Awoshie",
+        "city": "Awoshie, Accra",
+        "landmark": "Near Awoshie Baah Yard Junction",
+        "schedule": "Saturdays & Sundays (8:00 AM - 4:30 PM)",
+        "coordinator": {
+          "name": "Mr. Daniel Addo-Kufuor",
+          "title": "Study Center Coordinator",
+          "phone": "+233 20 444 8899",
+          "email": "awoshie.center@uew.edu.gh",
+          "office": "Assembly Hall Complex, Office 3",
+          "hours": "Saturdays 8:00 AM - 5:00 PM"
+        },
+        "nearbyHotels": [
+          { "name": "Awoshie Royal Guest House", "distance": "700m", "rate": "GH₵ 140 - 200 / night", "phone": "+233 24 555 4433", "rating": "4.1" },
+          { "name": "Anyaa Heights Suites", "distance": "1.5km", "rate": "GH₵ 200 - 280 / night", "phone": "+233 50 666 7788", "rating": "4.3" }
+        ],
+        "nearbyHealth": [
+          { "name": "Ga South Municipal Hospital", "distance": "2.8km", "type": "Government Municipal Hospital", "phone": "+233 30 231 2200" },
+          { "name": "Anyaa Community Polyclinic", "distance": "1.2km", "type": "Public Polyclinic & Pharmacy", "phone": "+233 30 231 5566" }
+        ],
+        "nearbyRestaurants": [
+          { "name": "Baah Yard Food Haven", "distance": "500m", "specialty": "Jollof Rice, Kenkey with Fried Fish & Pepper", "openHours": "8:00 AM - 8:00 PM" },
+          { "name": "Mama Grace Local Spot", "distance": "On Campus", "specialty": "Banku with Okro Soup, Tuo Zaafi", "openHours": "7:00 AM - 4:30 PM" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ashanti",
+    "name": "Ashanti Region",
+    "shortName": "Ashanti",
+    "capital": "Kumasi",
+    "code": "ASH",
+    "description": "Ashanti regional study centers offering comprehensive weekend tutorials across Kumasi and surrounding municipalities.",
+    "programs": [
+      {
+        "id": "ash-bed-basic",
+        "title": "B.Ed Basic Education (Primary & JHS)",
+        "department": "Department of Basic Education",
+        "level": "Level 100 - 400",
+        "centerIds": ["ash-kugiss", "ash-wesley", "ash-offinso"]
+      },
+      {
+        "id": "ash-bed-early",
+        "title": "B.Ed Early Childhood Education",
+        "department": "Department of Early Childhood Education",
+        "level": "Level 100 - 400",
+        "centerIds": ["ash-kugiss", "ash-wesley"]
+      },
+      {
+        "id": "ash-bsc-math",
+        "title": "B.Sc Mathematics Education",
+        "department": "Department of Mathematics Education",
+        "level": "Level 100 - 400",
+        "centerIds": ["ash-kugiss"]
+      },
+      {
+        "id": "ash-post-dip",
+        "title": "Post-Diploma B.Ed Educational Management",
+        "department": "Department of Educational Leadership",
+        "level": "Level 300 - 400",
+        "centerIds": ["ash-kugiss", "ash-wesley", "ash-offinso"]
+      }
+    ],
+    "centers": [
+      {
+        "id": "ash-kugiss",
+        "name": "Kumasi Girls SHS Study Center",
+        "premises": "Kumasi Girls Senior High School, Abrepo",
+        "city": "Abrepo, Kumasi",
+        "landmark": "Near Abrepo Junction and County Hospital",
+        "schedule": "Saturdays & Sundays (8:00 AM - 4:30 PM)",
+        "coordinator": {
+          "name": "Dr. Kwadwo Poku-Bonsu",
+          "title": "Study Center Coordinator",
+          "phone": "+233 24 332 1100",
+          "email": "kumasi.kugiss@uew.edu.gh",
+          "office": "Academic Block A, Ground Floor",
+          "hours": "Saturdays 8:00 AM - 4:30 PM | Sundays 12:30 PM - 4:30 PM"
+        },
+        "nearbyHotels": [
+          { "name": "Abrepo Royal Palace Hotel", "distance": "800m", "rate": "GH₵ 160 - 240 / night", "phone": "+233 24 771 2233", "rating": "4.5" },
+          { "name": "Bantama View Lodge", "distance": "1.7km", "rate": "GH₵ 190 - 280 / night", "phone": "+233 20 882 3344", "rating": "4.4" }
+        ],
+        "nearbyHealth": [
+          { "name": "County Hospital (Abrepo)", "distance": "600m", "type": "General Hospital & Emergency", "phone": "+233 32 204 1122" },
+          { "name": "Komfo Anokye Teaching Hospital (KATH)", "distance": "3.5km", "type": "National Tertiary Referral Hospital", "phone": "+233 32 202 2301" }
+        ],
+        "nearbyRestaurants": [
+          { "name": "Abrepo Junction Chop Bar", "distance": "400m", "specialty": "Authentic Ashanti Fufu with Light Soup, Bush Meat", "openHours": "9:00 AM - 6:00 PM" },
+          { "name": "KUGISS Snack & Executive Lounge", "distance": "On Campus", "specialty": "Fried Rice, Jollof, Meat Pies, Fresh Sobolo", "openHours": "7:30 AM - 4:30 PM" }
+        ]
+      },
+      {
+        "id": "ash-wesley",
+        "name": "Wesley College of Education Study Center",
+        "premises": "Wesley College Campus, Tafo-Kumasi",
+        "city": "Tafo, Kumasi",
+        "landmark": "Directly Opposite Tafo Pankrono Government Hospital",
+        "schedule": "Saturdays & Sundays (8:00 AM - 5:00 PM)",
+        "coordinator": {
+          "name": "Rev. Francisca Frimpong",
+          "title": "Study Center Coordinator",
+          "phone": "+233 24 551 8822",
+          "email": "tafo.wesley@uew.edu.gh",
+          "office": "Methodist Chapel Annex Office 2",
+          "hours": "Saturdays 8:00 AM - 5:00 PM"
+        },
+        "nearbyHotels": [
+          { "name": "Pankrono Forest Lodge", "distance": "1.1km", "rate": "GH₵ 150 - 210 / night", "phone": "+233 24 119 9887", "rating": "4.3" },
+          { "name": "Wesleyan Guest Haven", "distance": "300m", "rate": "GH₵ 130 - 180 / night", "phone": "+233 20 443 3221", "rating": "4.2" }
+        ],
+        "nearbyHealth": [
+          { "name": "Tafo Pankrono Government Hospital", "distance": "350m", "type": "District Public Hospital", "phone": "+233 32 207 0011" },
+          { "name": "Tafo Christian Clinic", "distance": "800m", "type": "Maternity & General Care", "phone": "+233 32 207 0044" }
+        ],
+        "nearbyRestaurants": [
+          { "name": "Tafo Pioneer Canteen", "distance": "On Campus", "specialty": "Waakye, Rice & Stew, Tuo Zaafi with Ayoyo", "openHours": "7:00 AM - 5:00 PM" },
+          { "name": "Asanka Local Kitchen", "distance": "600m", "specialty": "Fufu with Goat Meat & Smoked Catfish", "openHours": "10:00 AM - 7:00 PM" }
+        ]
+      },
+      {
+        "id": "ash-offinso",
+        "name": "Offinso College of Education Study Center",
+        "premises": "Offinso College of Education Campus, Offinso",
+        "city": "Offinso",
+        "landmark": "Along Kumasi-Techiman Highway",
+        "schedule": "Saturdays & Sundays (8:00 AM - 4:00 PM)",
+        "coordinator": {
+          "name": "Mr. Isaac Boakye-Yiadom",
+          "title": "Study Center Coordinator",
+          "phone": "+233 24 778 9911",
+          "email": "offinso.center@uew.edu.gh",
+          "office": "Tutor Staff Room, Block C",
+          "hours": "Saturdays 8:00 AM - 4:00 PM"
+        },
+        "nearbyHotels": [
+          { "name": "Offinso Paradise Motel", "distance": "500m", "rate": "GH₵ 110 - 160 / night", "phone": "+233 24 661 1122", "rating": "4.0" }
+        ],
+        "nearbyHealth": [
+          { "name": "St. Patrick's Hospital Offinso", "distance": "1.5km", "type": "District Mission Hospital", "phone": "+233 32 209 1010" }
+        ],
+        "nearbyRestaurants": [
+          { "name": "Highway Traveler's Rest", "distance": "300m", "specialty": "Ampesi with Kontomire Stew, Banku", "openHours": "7:00 AM - 7:00 PM" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "central",
+    "name": "Central Region",
+    "shortName": "Central",
+    "capital": "Cape Coast / Winneba",
+    "code": "CR",
+    "description": "Central regional study centers including Winneba Main Campus Hub and Cape Coast historical colleges.",
+    "programs": [
+      {
+        "id": "cr-bed-basic",
+        "title": "B.Ed Basic Education (All Options)",
+        "department": "Department of Basic Education",
+        "level": "Level 100 - 400",
+        "centerIds": ["cr-ola", "cr-winneba-north"]
+      },
+      {
+        "id": "cr-bed-early",
+        "title": "B.Ed Early Childhood Education",
+        "department": "Department of Early Childhood Education",
+        "level": "Level 100 - 400",
+        "centerIds": ["cr-ola", "cr-winneba-north"]
+      },
+      {
+        "id": "cr-bsc-math",
+        "title": "B.Sc Mathematics Education",
+        "department": "Department of Mathematics Education",
+        "level": "Level 100 - 400",
+        "centerIds": ["cr-winneba-north"]
+      },
+      {
+        "id": "cr-post-dip",
+        "title": "Post-Diploma B.Ed Educational Administration",
+        "department": "Department of Educational Leadership",
+        "level": "Level 300 - 400",
+        "centerIds": ["cr-ola", "cr-winneba-north"]
+      }
+    ],
+    "centers": [
+      {
+        "id": "cr-ola",
+        "name": "OLA College of Education Study Center",
+        "premises": "OLA College Campus, Cape Coast",
+        "city": "Cape Coast",
+        "landmark": "Near UCC Old Site & Ola Seaside",
+        "schedule": "Saturdays & Sundays (8:00 AM - 4:30 PM)",
+        "coordinator": {
+          "name": "Dr. Theresa Mensah-Amoah",
+          "title": "Study Center Coordinator",
+          "phone": "+233 24 220 3344",
+          "email": "capecoast.ola@uew.edu.gh",
+          "office": "Catholic Secretariat Wing, Room 4",
+          "hours": "Saturdays 8:00 AM - 4:30 PM"
+        },
+        "nearbyHotels": [
+          { "name": "Cape Coast Coastal Haven", "distance": "750m", "rate": "GH₵ 160 - 230 / night", "phone": "+233 24 456 7890", "rating": "4.6" },
+          { "name": "Bentsir Bay Guest House", "distance": "1.3km", "rate": "GH₵ 180 - 270 / night", "phone": "+233 20 889 0011", "rating": "4.5" }
+        ],
+        "nearbyHealth": [
+          { "name": "Cape Coast Teaching Hospital (CCTH)", "distance": "3.1km", "type": "Regional Teaching Hospital", "phone": "+233 33 213 4010" },
+          { "name": "UCC Health Services Centre", "distance": "1.2km", "type": "University Hospital & Emergency", "phone": "+233 33 213 2480" }
+        ],
+        "nearbyRestaurants": [
+          { "name": "OLA Sisters Canteen", "distance": "On Campus", "specialty": "Cape Coast Fante Kenkey with Fresh Fish & Shito", "openHours": "7:00 AM - 5:00 PM" },
+          { "name": "Solomon's Seaside Spot", "distance": "800m", "specialty": "Grilled Tilapia, Fried Yam, Chilled Coconuts", "openHours": "11:00 AM - 9:00 PM" }
+        ]
+      },
+      {
+        "id": "cr-winneba-north",
+        "name": "Winneba North Campus Distance Hub",
+        "premises": "UEW North Campus, Winneba",
+        "city": "Winneba",
+        "landmark": "Opposite Faculty of Educational Studies Complex",
+        "schedule": "Saturdays & Sundays (8:00 AM - 5:00 PM)",
+        "coordinator": {
+          "name": "Prof. Joshua Nana Arthur",
+          "title": "Lead Coordinator - Distance Directorate",
+          "phone": "+233 33 232 2012",
+          "email": "winneba.hub@uew.edu.gh",
+          "office": "CODeL Building, 2nd Floor, Room 208",
+          "hours": "Monday - Friday 8:00 AM - 5:00 PM | Saturdays 8:00 AM - 2:00 PM"
+        },
+        "nearbyHotels": [
+          { "name": "Windy Bay Executive Lodge", "distance": "1.0km", "rate": "GH₵ 200 - 300 / night", "phone": "+233 24 556 6778", "rating": "4.7" },
+          { "name": "Sir Charles Beach Resort", "distance": "2.5km", "rate": "GH₵ 350 - 550 / night", "phone": "+233 20 112 2334", "rating": "4.8" }
+        ],
+        "nearbyHealth": [
+          { "name": "UEW University Hospital", "distance": "On Campus", "type": "Full University Health Facility", "phone": "+233 33 232 2030" },
+          { "name": "Winneba Municipal Hospital", "distance": "1.8km", "type": "Government Referral Hospital", "phone": "+233 33 232 2211" }
+        ],
+        "nearbyRestaurants": [
+          { "name": "CODeL Pavilion Restaurant", "distance": "On Campus", "specialty": "Buffet, Jollof, Fante Kenkey, Roasted Chicken", "openHours": "7:00 AM - 7:00 PM" },
+          { "name": "Ankobra Canteen", "distance": "300m", "specialty": "Red Red, Waakye with Assorted Fish & Meats", "openHours": "7:30 AM - 5:00 PM" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "eastern",
+    "name": "Eastern Region",
+    "shortName": "Eastern",
+    "capital": "Koforidua",
+    "code": "ER",
+    "description": "Eastern regional study centers located in Koforidua, Oda, and surrounding municipal educational institutions.",
+    "programs": [
+      {
+        "id": "er-bed-basic",
+        "title": "B.Ed Basic Education",
+        "department": "Department of Basic Education",
+        "level": "Level 100 - 400",
+        "centerIds": ["er-koforidua-sec", "er-sda-asokore"]
+      },
+      {
+        "id": "er-bed-early",
+        "title": "B.Ed Early Childhood Education",
+        "department": "Department of Early Childhood Education",
+        "level": "Level 100 - 400",
+        "centerIds": ["er-koforidua-sec"]
+      },
+      {
+        "id": "er-post-dip",
+        "title": "Post-Diploma B.Ed Administration",
+        "department": "Department of Educational Leadership",
+        "level": "Level 300 - 400",
+        "centerIds": ["er-koforidua-sec", "er-sda-asokore"]
+      }
+    ],
+    "centers": [
+      {
+        "id": "er-koforidua-sec",
+        "name": "Koforidua Senior High Technical Study Center",
+        "premises": "Koforidua SECTECH Campus, Koforidua",
+        "city": "Koforidua",
+        "landmark": "Near Koforidua Sports Stadium",
+        "schedule": "Saturdays & Sundays (8:00 AM - 4:30 PM)",
+        "coordinator": {
+          "name": "Mr. Collins Agyei-Twum",
+          "title": "Study Center Coordinator",
+          "phone": "+233 24 667 8890",
+          "email": "koforidua.center@uew.edu.gh",
+          "office": "Technical Block 2, Office 1",
+          "hours": "Saturdays 8:00 AM - 4:30 PM"
+        },
+        "nearbyHotels": [
+          { "name": "Eastern Premier Hotel", "distance": "1.4km", "rate": "GH₵ 250 - 380 / night", "phone": "+233 34 202 1100", "rating": "4.6" },
+          { "name": "Mount Sinai View Guest House", "distance": "800m", "rate": "GH₵ 140 - 200 / night", "phone": "+233 24 118 7766", "rating": "4.3" }
+        ],
+        "nearbyHealth": [
+          { "name": "Eastern Regional Hospital (Koforidua)", "distance": "2.0km", "type": "Regional Referral Hospital", "phone": "+233 34 202 2341" }
+        ],
+        "nearbyRestaurants": [
+          { "name": "Linda Dor Highway & Town Eatery", "distance": "1.2km", "specialty": "Pastries, Jollof, Fufu, Spring Rolls", "openHours": "7:00 AM - 9:30 PM" }
+        ]
+      },
+      {
+        "id": "er-sda-asokore",
+        "name": "S.D.A. College of Education Study Center",
+        "premises": "SDA College of Education Campus, Asokore-Koforidua",
+        "city": "Asokore, Koforidua",
+        "landmark": "Asokore Roundabout",
+        "schedule": "Sundays Only (7:30 AM - 5:30 PM)",
+        "coordinator": {
+          "name": "Pastor Seth Anim-Boateng",
+          "title": "Study Center Coordinator",
+          "phone": "+233 20 889 9900",
+          "email": "asokore.center@uew.edu.gh",
+          "office": "Chapel Annex Room 3",
+          "hours": "Sundays 7:30 AM - 5:30 PM"
+        },
+        "nearbyHotels": [
+          { "name": "Asokore Haven Guest House", "distance": "600m", "rate": "GH₵ 120 - 180 / night", "phone": "+233 24 332 2110", "rating": "4.1" }
+        ],
+        "nearbyHealth": [
+          { "name": "S.D.A. Hospital Asokore", "distance": "500m", "type": "Full Hospital & Maternity", "phone": "+233 34 202 3344" }
+        ],
+        "nearbyRestaurants": [
+          { "name": "SDA Vegetarian & Health Kitchen", "distance": "On Campus", "specialty": "Gluten loaf, Soy kebabs, Brown rice & soup", "openHours": "8:00 AM - 5:00 PM" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "western",
+    "name": "Western Region",
+    "shortName": "Western",
+    "capital": "Sekondi-Takoradi",
+    "code": "WR",
+    "description": "Oil City study centers in Takoradi and Sekondi servicing coastal and industrial educational professionals.",
+    "programs": [
+      {
+        "id": "wr-bed-basic",
+        "title": "B.Ed Basic Education",
+        "department": "Department of Basic Education",
+        "level": "Level 100 - 400",
+        "centerIds": ["wr-takoradi-poly", "wr-fijai"]
+      },
+      {
+        "id": "wr-post-dip",
+        "title": "Post-Diploma B.Ed Administration",
+        "department": "Department of Educational Leadership",
+        "level": "Level 300 - 400",
+        "centerIds": ["wr-takoradi-poly"]
+      }
+    ],
+    "centers": [
+      {
+        "id": "wr-takoradi-poly",
+        "name": "Takoradi Study Center (TTU Campus)",
+        "premises": "Takoradi Technical University Campus, Takoradi",
+        "city": "Takoradi",
+        "landmark": "Near Effia-Nkwanta Roundabout",
+        "schedule": "Saturdays & Sundays (8:00 AM - 4:30 PM)",
+        "coordinator": {
+          "name": "Mr. Anthony Kobina Mensah",
+          "title": "Study Center Coordinator",
+          "phone": "+233 24 311 0099",
+          "email": "takoradi.center@uew.edu.gh",
+          "office": "Distance Learning Secretariat, Room 102",
+          "hours": "Saturdays 8:00 AM - 4:30 PM"
+        },
+        "nearbyHotels": [
+          { "name": "Planters Coconut Grove Lodge", "distance": "1.5km", "rate": "GH₵ 220 - 340 / night", "phone": "+233 31 202 2011", "rating": "4.6" },
+          { "name": "Harbor View Motel", "distance": "1.0km", "rate": "GH₵ 150 - 220 / night", "phone": "+233 24 443 1234", "rating": "4.3" }
+        ],
+        "nearbyHealth": [
+          { "name": "Effia Nkwanta Regional Hospital", "distance": "1.2km", "type": "Regional Government Hospital", "phone": "+233 31 202 2451" }
+        ],
+        "nearbyRestaurants": [
+          { "name": "Market Circle Chop Bar", "distance": "1.8km", "specialty": "Fante Ddokono with Grilled Tilapia & Shito", "openHours": "8:00 AM - 8:00 PM" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "western-north",
+    "name": "Western North Region",
+    "shortName": "Western North",
+    "capital": "Sefwi Wiawso",
+    "code": "WNR",
+    "description": "Servicing educators across the cocoa-rich timber municipal zones in Sefwi Wiawso and Bibiani.",
+    "programs": [
+      {
+        "id": "wnr-bed-basic",
+        "title": "B.Ed Basic Education",
+        "department": "Department of Basic Education",
+        "level": "Level 100 - 400",
+        "centerIds": ["wnr-wiawso-coe"]
+      },
+      {
+        "id": "wnr-dip-edu",
+        "title": "Diploma in Basic Education",
+        "department": "Faculty of Educational Studies",
+        "level": "Level 100 - 200",
+        "centerIds": ["wnr-wiawso-coe"]
+      }
+    ],
+    "centers": [
+      {
+        "id": "wnr-wiawso-coe",
+        "name": "Wiawso College of Education Study Center",
+        "premises": "Wiawso College of Education Campus, Sefwi Wiawso",
+        "city": "Sefwi Wiawso",
+        "landmark": "Near Forestry Commission District Office",
+        "schedule": "Saturdays & Sundays (8:00 AM - 4:00 PM)",
+        "coordinator": {
+          "name": "Mr. Francis Kwame Bioh",
+          "title": "Study Center Coordinator",
+          "phone": "+233 24 887 6655",
+          "email": "wiawso.center@uew.edu.gh",
+          "office": "Administration Block, Office 4",
+          "hours": "Saturdays 8:00 AM - 4:00 PM"
+        },
+        "nearbyHotels": [
+          { "name": "Sefwiman Royal Guest Lodge", "distance": "900m", "rate": "GH₵ 120 - 180 / night", "phone": "+233 24 555 9876", "rating": "4.2" }
+        ],
+        "nearbyHealth": [
+          { "name": "Sefwi Wiawso Government Hospital", "distance": "1.4km", "type": "District Hospital", "phone": "+233 31 209 2011" }
+        ],
+        "nearbyRestaurants": [
+          { "name": "Nana Cocoa Eatery", "distance": "500m", "specialty": "Plantain Ampesi with Nkontomire, Bushmeat Light Soup", "openHours": "7:00 AM - 6:00 PM" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "volta",
+    "name": "Volta Region",
+    "shortName": "Volta",
+    "capital": "Ho",
+    "code": "VR",
+    "description": "Volta regional hub based at Mawuli School in Ho, offering academic programs to students across southern Volta.",
+    "programs": [
+      {
+        "id": "vr-bed-basic",
+        "title": "B.Ed Basic Education",
+        "department": "Department of Basic Education",
+        "level": "Level 100 - 400",
+        "centerIds": ["vr-mawuli-ho"]
+      },
+      {
+        "id": "vr-post-dip",
+        "title": "Post-Diploma B.Ed Educational Management",
+        "department": "Department of Educational Leadership",
+        "level": "Level 300 - 400",
+        "centerIds": ["vr-mawuli-ho"]
+      }
+    ],
+    "centers": [
+      {
+        "id": "vr-mawuli-ho",
+        "name": "Mawuli Senior High School Study Center",
+        "premises": "Mawuli School Campus, Ho",
+        "city": "Ho",
+        "landmark": "Near Ho Teaching Hospital Road",
+        "schedule": "Saturdays & Sundays (8:00 AM - 4:30 PM)",
+        "coordinator": {
+          "name": "Rev. Dr. Senyo Gbordzoe",
+          "title": "Study Center Coordinator",
+          "phone": "+233 24 776 5400",
+          "email": "ho.center@uew.edu.gh",
+          "office": "Library Block, 1st Floor Room 7",
+          "hours": "Saturdays 8:00 AM - 4:30 PM"
+        },
+        "nearbyHotels": [
+          { "name": "Volta Serene Hotel", "distance": "2.4km", "rate": "GH₵ 400 - 650 / night", "phone": "+233 36 202 8900", "rating": "4.8" },
+          { "name": "Ho Municipal Guest Lodge", "distance": "800m", "rate": "GH₵ 140 - 210 / night", "phone": "+233 20 445 6789", "rating": "4.3" }
+        ],
+        "nearbyHealth": [
+          { "name": "Ho Teaching Hospital", "distance": "1.5km", "type": "Regional Teaching Hospital", "phone": "+233 36 202 6620" }
+        ],
+        "nearbyRestaurants": [
+          { "name": "Mawuli Dining Pavilion", "distance": "On Campus", "specialty": "Ewe Akple with Fetridetsi (Okro soup) & Fresh Fish", "openHours": "8:00 AM - 5:30 PM" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "oti",
+    "name": "Oti Region",
+    "shortName": "Oti",
+    "capital": "Dambai",
+    "code": "OR",
+    "description": "Centrally positioned at Dambai College of Education, reaching teachers across northern and island districts.",
+    "programs": [
+      {
+        "id": "or-bed-basic",
+        "title": "B.Ed Basic Education",
+        "department": "Department of Basic Education",
+        "level": "Level 100 - 400",
+        "centerIds": ["or-dambai-coe"]
+      }
+    ],
+    "centers": [
+      {
+        "id": "or-dambai-coe",
+        "name": "Dambai College of Education Study Center",
+        "premises": "Dambai College Campus, Dambai",
+        "city": "Dambai",
+        "landmark": "Near Lake Volta Lakeside Crossing",
+        "schedule": "Saturdays & Sundays (8:00 AM - 4:00 PM)",
+        "coordinator": {
+          "name": "Mr. Gershon Agbemafle",
+          "title": "Study Center Coordinator",
+          "phone": "+233 24 112 9988",
+          "email": "dambai.center@uew.edu.gh",
+          "office": "Main Admin Building, Room 2",
+          "hours": "Saturdays 8:00 AM - 4:00 PM"
+        },
+        "nearbyHotels": [
+          { "name": "Dambai Lakeside Guest House", "distance": "1.0km", "rate": "GH₵ 110 - 170 / night", "phone": "+233 24 778 0099", "rating": "4.1" }
+        ],
+        "nearbyHealth": [
+          { "name": "Dambai Health Centre", "distance": "800m", "type": "Government Health Facility", "phone": "+233 36 219 2020" }
+        ],
+        "nearbyRestaurants": [
+          { "name": "Lakeview Fresh Fish Spot", "distance": "700m", "specialty": "Banku with Fresh River Tilapia & Hot Pepper", "openHours": "10:00 AM - 8:00 PM" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "bono",
+    "name": "Bono Region",
+    "shortName": "Bono",
+    "capital": "Sunyani",
+    "code": "BR",
+    "description": "Sunyani educational centers serving Sunyani Municipal, Berekum, and Dormaa districts.",
+    "programs": [
+      {
+        "id": "br-bed-basic",
+        "title": "B.Ed Basic Education",
+        "department": "Department of Basic Education",
+        "level": "Level 100 - 400",
+        "centerIds": ["br-sunyani-shs", "br-berekum-coe"]
+      },
+      {
+        "id": "br-bed-early",
+        "title": "B.Ed Early Childhood Education",
+        "department": "Department of Early Childhood Education",
+        "level": "Level 100 - 400",
+        "centerIds": ["br-sunyani-shs"]
+      },
+      {
+        "id": "br-post-dip",
+        "title": "Post-Diploma B.Ed Educational Administration",
+        "department": "Department of Educational Leadership",
+        "level": "Level 300 - 400",
+        "centerIds": ["br-sunyani-shs", "br-berekum-coe"]
+      }
+    ],
+    "centers": [
+      {
+        "id": "br-sunyani-shs",
+        "name": "Sunyani Senior High School Study Center",
+        "premises": "Sunyani SHS (SUSEC) Campus, Sunyani",
+        "city": "Sunyani",
+        "landmark": "Near Sunyani Coronation Park",
+        "schedule": "Saturdays & Sundays (8:00 AM - 4:30 PM)",
+        "coordinator": {
+          "name": "Mr. Joseph K. Badu",
+          "title": "Study Center Coordinator",
+          "phone": "+233 24 331 4455",
+          "email": "sunyani.center@uew.edu.gh",
+          "office": "Staff Room Annex B, 1st Floor",
+          "hours": "Saturdays 8:00 AM - 4:30 PM"
+        },
+        "nearbyHotels": [
+          { "name": "Eusbett Hotel Sunyani", "distance": "2.2km", "rate": "GH₵ 320 - 480 / night", "phone": "+233 35 202 7300", "rating": "4.7" },
+          { "name": "Coronation Guest Lodge", "distance": "600m", "rate": "GH₵ 130 - 190 / night", "phone": "+233 20 887 1122", "rating": "4.2" }
+        ],
+        "nearbyHealth": [
+          { "name": "Sunyani Municipal Hospital", "distance": "1.1km", "type": "Municipal Government Hospital", "phone": "+233 35 202 7111" }
+        ],
+        "nearbyRestaurants": [
+          { "name": "SUSEC Campus Eatery", "distance": "On Campus", "specialty": "Waakye, Fufu with Light Soup, Jollof", "openHours": "7:30 AM - 5:00 PM" }
+        ]
+      },
+      {
+        "id": "br-berekum-coe",
+        "name": "Berekum College of Education Study Center",
+        "premises": "Berekum College of Education Campus, Berekum",
+        "city": "Berekum",
+        "landmark": "Along Berekum-Sunyani Road",
+        "schedule": "Saturdays & Sundays (8:00 AM - 4:00 PM)",
+        "coordinator": {
+          "name": "Mrs. Charity Adomaa",
+          "title": "Study Center Coordinator",
+          "phone": "+233 24 556 7788",
+          "email": "berekum.center@uew.edu.gh",
+          "office": "Administration Complex, Room 6",
+          "hours": "Saturdays 8:00 AM - 4:00 PM"
+        },
+        "nearbyHotels": [
+          { "name": "Golden City Motel Berekum", "distance": "900m", "rate": "GH₵ 110 - 160 / night", "phone": "+233 24 991 2233", "rating": "4.2" }
+        ],
+        "nearbyHealth": [
+          { "name": "Holy Family Hospital Berekum", "distance": "1.3km", "type": "Mission Referral Hospital", "phone": "+233 35 222 2110" }
+        ],
+        "nearbyRestaurants": [
+          { "name": "Berekum Star Kitchen", "distance": "On Campus", "specialty": "Ampesi, Fufu, Fried Rice", "openHours": "7:00 AM - 5:00 PM" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "bono-east",
+    "name": "Bono East Region",
+    "shortName": "Bono East",
+    "capital": "Techiman",
+    "code": "BER",
+    "description": "Commercial agricultural hub center serving teachers in Techiman, Kintampo, and Atebubu.",
+    "programs": [
+      {
+        "id": "ber-bed-basic",
+        "title": "B.Ed Basic Education",
+        "department": "Department of Basic Education",
+        "level": "Level 100 - 400",
+        "centerIds": ["ber-techiman-shs"]
+      },
+      {
+        "id": "ber-post-dip",
+        "title": "Post-Diploma B.Ed Administration",
+        "department": "Department of Educational Leadership",
+        "level": "Level 300 - 400",
+        "centerIds": ["ber-techiman-shs"]
+      }
+    ],
+    "centers": [
+      {
+        "id": "ber-techiman-shs",
+        "name": "Techiman Senior High School Study Center",
+        "premises": "Techiman Senior High School Campus, Techiman",
+        "city": "Techiman",
+        "landmark": "Near Techiman Central Market Junction",
+        "schedule": "Saturdays & Sundays (8:00 AM - 4:30 PM)",
+        "coordinator": {
+          "name": "Mr. Augustine Kwasi Fosu",
+          "title": "Study Center Coordinator",
+          "phone": "+233 24 223 3445",
+          "email": "techiman.center@uew.edu.gh",
+          "office": "Academic Block 1, Ground Floor",
+          "hours": "Saturdays 8:00 AM - 4:30 PM"
+        },
+        "nearbyHotels": [
+          { "name": "Premier Palace Hotel Techiman", "distance": "1.2km", "rate": "GH₵ 160 - 240 / night", "phone": "+233 35 252 2400", "rating": "4.4" },
+          { "name": "Techiman Transit Lodge", "distance": "800m", "rate": "GH₵ 120 - 170 / night", "phone": "+233 20 551 2233", "rating": "4.1" }
+        ],
+        "nearbyHealth": [
+          { "name": "Holy Family Hospital Techiman", "distance": "1.8km", "type": "Catholic Mission Hospital", "phone": "+233 35 252 2011" }
+        ],
+        "nearbyRestaurants": [
+          { "name": "Market City Chop Bar", "distance": "500m", "specialty": "Tuo Zaafi, Fufu with Goat Meat, Jollof", "openHours": "8:00 AM - 7:00 PM" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ahafo",
+    "name": "Ahafo Region",
+    "shortName": "Ahafo",
+    "capital": "Goaso",
+    "code": "AFR",
+    "description": "Centrally based at Goaso and Kenyasi to provide higher educational opportunities across the mining & cocoa district.",
+    "programs": [
+      {
+        "id": "afr-bed-basic",
+        "title": "B.Ed Basic Education",
+        "department": "Department of Basic Education",
+        "level": "Level 100 - 400",
+        "centerIds": ["afr-goaso-shs"]
+      }
+    ],
+    "centers": [
+      {
+        "id": "afr-goaso-shs",
+        "name": "Ahafo Community Study Center (Goaso)",
+        "premises": "Ahafo Senior High School Campus, Goaso",
+        "city": "Goaso",
+        "landmark": "Near Goaso Municipal Assembly",
+        "schedule": "Saturdays & Sundays (8:00 AM - 4:00 PM)",
+        "coordinator": {
+          "name": "Mr. Bernard Kwarteng",
+          "title": "Study Center Coordinator",
+          "phone": "+233 24 990 0112",
+          "email": "goaso.center@uew.edu.gh",
+          "office": "Staff Common Room, Room 5",
+          "hours": "Saturdays 8:00 AM - 4:00 PM"
+        },
+        "nearbyHotels": [
+          { "name": "Goaso Executive Suites", "distance": "700m", "rate": "GH₵ 130 - 190 / night", "phone": "+233 24 441 2233", "rating": "4.2" }
+        ],
+        "nearbyHealth": [
+          { "name": "Goaso Municipal Hospital", "distance": "1.1km", "type": "Municipal Government Hospital", "phone": "+233 35 219 1100" }
+        ],
+        "nearbyRestaurants": [
+          { "name": "Ahafo Star Restaurant", "distance": "On Campus", "specialty": "Ampesi, Fufu, Rice & Stew", "openHours": "7:30 AM - 5:00 PM" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "northern",
+    "name": "Northern Region",
+    "shortName": "Northern",
+    "capital": "Tamale",
+    "code": "NR",
+    "description": "Northern zone study centers at Tamale College of Education (TACE) and Bagabaga College serving the metropolitan sector.",
+    "programs": [
+      {
+        "id": "nr-bed-basic",
+        "title": "B.Ed Basic Education (All Options)",
+        "department": "Department of Basic Education",
+        "level": "Level 100 - 400",
+        "centerIds": ["nr-tace", "nr-batco"]
+      },
+      {
+        "id": "nr-bed-early",
+        "title": "B.Ed Early Childhood Education",
+        "department": "Department of Early Childhood Education",
+        "level": "Level 100 - 400",
+        "centerIds": ["nr-tace"]
+      },
+      {
+        "id": "nr-bsc-math",
+        "title": "B.Sc Mathematics Education",
+        "department": "Department of Mathematics Education",
+        "level": "Level 100 - 400",
+        "centerIds": ["nr-tace"]
+      },
+      {
+        "id": "nr-post-dip",
+        "title": "Post-Diploma B.Ed Administration",
+        "department": "Department of Educational Leadership",
+        "level": "Level 300 - 400",
+        "centerIds": ["nr-tace", "nr-batco"]
+      }
+    ],
+    "centers": [
+      {
+        "id": "nr-tace",
+        "name": "Tamale College of Education Study Center (TACE)",
+        "premises": "Tamale College of Education Campus, Tamale",
+        "city": "Tamale",
+        "landmark": "Near Education Ridge & Tamale Sports Stadium",
+        "schedule": "Saturdays & Sundays (7:30 AM - 4:30 PM)",
+        "coordinator": {
+          "name": "Alhaji Mohammed Iddrisu",
+          "title": "Study Center Coordinator",
+          "phone": "+233 24 489 0011",
+          "email": "tamale.tace@uew.edu.gh",
+          "office": "Administration Complex, 1st Floor, Room 11",
+          "hours": "Saturdays 7:30 AM - 4:30 PM | Sundays 1:00 PM - 5:00 PM"
+        },
+        "nearbyHotels": [
+          { "name": "Modern City Hotel Tamale", "distance": "1.8km", "rate": "GH₵ 280 - 450 / night", "phone": "+233 37 202 2300", "rating": "4.7" },
+          { "name": "Ridge Royal Guest House", "distance": "600m", "rate": "GH₵ 140 - 210 / night", "phone": "+233 24 551 2299", "rating": "4.4" }
+        ],
+        "nearbyHealth": [
+          { "name": "Tamale Teaching Hospital (TTH)", "distance": "2.5km", "type": "National Teaching Referral Hospital", "phone": "+233 37 202 2458" },
+          { "name": "Tamale Central Hospital", "distance": "1.4km", "type": "Regional Government Hospital", "phone": "+233 37 202 2221" }
+        ],
+        "nearbyRestaurants": [
+          { "name": "TACE Central Dining Hall", "distance": "On Campus", "specialty": "Delicious Tuo Zaafi with Ayoyo & Beef, Waakye", "openHours": "7:00 AM - 5:30 PM" },
+          { "name": "Swad Fast Food Tamale", "distance": "1.5km", "specialty": "Jollof Rice, Grilled Guinea Fowl, Fresh Juices", "openHours": "8:00 AM - 10:00 PM" }
+        ]
+      },
+      {
+        "id": "nr-batco",
+        "name": "Bagabaga College of Education Study Center",
+        "premises": "Bagabaga College Campus, Tamale",
+        "city": "Tamale",
+        "landmark": "Near BATCO Roundabout",
+        "schedule": "Saturdays & Sundays (8:00 AM - 4:00 PM)",
+        "coordinator": {
+          "name": "Dr. Yakubu Abdul-Rahman",
+          "title": "Study Center Coordinator",
+          "phone": "+233 20 771 3344",
+          "email": "batco.center@uew.edu.gh",
+          "office": "Old Administration Block, Office 3",
+          "hours": "Saturdays 8:00 AM - 4:00 PM"
+        },
+        "nearbyHotels": [
+          { "name": "Savannah Breeze Guest Lodge", "distance": "1.1km", "rate": "GH₵ 130 - 190 / night", "phone": "+233 24 661 2244", "rating": "4.3" }
+        ],
+        "nearbyHealth": [
+          { "name": "Tamale West Hospital", "distance": "2.0km", "type": "Public Municipal Hospital", "phone": "+233 37 202 3311" }
+        ],
+        "nearbyRestaurants": [
+          { "name": "BATCO Pavilion Canteen", "distance": "On Campus", "specialty": "Tuo Zaafi, Beans and Fried Ripe Plantain, Koko", "openHours": "7:30 AM - 5:00 PM" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "savannah",
+    "name": "Savannah Region",
+    "shortName": "Savannah",
+    "capital": "Damongo",
+    "code": "SR",
+    "description": "Serving distance learners across Damongo, Bole, and Salaga districts.",
+    "programs": [
+      {
+        "id": "sr-bed-basic",
+        "title": "B.Ed Basic Education",
+        "department": "Department of Basic Education",
+        "level": "Level 100 - 400",
+        "centerIds": ["sr-damongo-shs"]
+      }
+    ],
+    "centers": [
+      {
+        "id": "sr-damongo-shs",
+        "name": "Damongo Senior High School Study Center",
+        "premises": "Damongo Senior High School Campus, Damongo",
+        "city": "Damongo",
+        "landmark": "Near Mole National Park Junction Road",
+        "schedule": "Saturdays & Sundays (8:00 AM - 4:00 PM)",
+        "coordinator": {
+          "name": "Mr. Adam Braimah",
+          "title": "Study Center Coordinator",
+          "phone": "+233 24 551 1223",
+          "email": "damongo.center@uew.edu.gh",
+          "office": "Staff Room, Block 1",
+          "hours": "Saturdays 8:00 AM - 4:00 PM"
+        },
+        "nearbyHotels": [
+          { "name": "Mole View Inn (Damongo)", "distance": "1.2km", "rate": "GH₵ 120 - 180 / night", "phone": "+233 24 332 1144", "rating": "4.2" }
+        ],
+        "nearbyHealth": [
+          { "name": "St. Anne's Hospital Damongo", "distance": "1.0km", "type": "District Hospital", "phone": "+233 37 209 1122" }
+        ],
+        "nearbyRestaurants": [
+          { "name": "Savannah Pride Spot", "distance": "600m", "specialty": "Tuo Zaafi with Kuka, Roasted Guinea Fowl", "openHours": "8:00 AM - 7:00 PM" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "north-east",
+    "name": "North East Region",
+    "shortName": "North East",
+    "capital": "Nalerigu",
+    "code": "NER",
+    "description": "Serving distance education students in Nalerigu, Walewale, and Gambaga.",
+    "programs": [
+      {
+        "id": "ner-bed-basic",
+        "title": "B.Ed Basic Education",
+        "department": "Department of Basic Education",
+        "level": "Level 100 - 400",
+        "centerIds": ["ner-nalerigu-coe"]
+      }
+    ],
+    "centers": [
+      {
+        "id": "ner-nalerigu-coe",
+        "name": "Nalerigu College of Education Study Center",
+        "premises": "Nalerigu College Campus, Nalerigu",
+        "city": "Nalerigu",
+        "landmark": "Near BMC Hospital Nalerigu",
+        "schedule": "Saturdays & Sundays (8:00 AM - 4:00 PM)",
+        "coordinator": {
+          "name": "Mr. Peter Suglo",
+          "title": "Study Center Coordinator",
+          "phone": "+233 24 661 9900",
+          "email": "nalerigu.center@uew.edu.gh",
+          "office": "Administration Building, Room 5",
+          "hours": "Saturdays 8:00 AM - 4:00 PM"
+        },
+        "nearbyHotels": [
+          { "name": "Nalerigu Escarpment Lodge", "distance": "1.0km", "rate": "GH₵ 100 - 150 / night", "phone": "+233 24 112 3344", "rating": "4.1" }
+        ],
+        "nearbyHealth": [
+          { "name": "Baptist Medical Centre (BMC)", "distance": "600m", "type": "Major Referral Mission Hospital", "phone": "+233 37 209 3010" }
+        ],
+        "nearbyRestaurants": [
+          { "name": "Escarpment Canteen", "distance": "On Campus", "specialty": "Tuo Zaafi with Ayoyo, Rice and Beans", "openHours": "7:00 AM - 5:00 PM" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "upper-east",
+    "name": "Upper East Region",
+    "shortName": "Upper East",
+    "capital": "Bolgatanga",
+    "code": "UER",
+    "description": "Upper East study center based in Bolgatanga, providing access to teachers in Navrongo, Bawku, and Bongo.",
+    "programs": [
+      {
+        "id": "uer-bed-basic",
+        "title": "B.Ed Basic Education",
+        "department": "Department of Basic Education",
+        "level": "Level 100 - 400",
+        "centerIds": ["uer-bolga-sec"]
+      },
+      {
+        "id": "uer-post-dip",
+        "title": "Post-Diploma B.Ed Administration",
+        "department": "Department of Educational Leadership",
+        "level": "Level 300 - 400",
+        "centerIds": ["uer-bolga-sec"]
+      }
+    ],
+    "centers": [
+      {
+        "id": "uer-bolga-sec",
+        "name": "Bolgatanga Girls Senior High Study Center",
+        "premises": "Bolgatanga Girls Senior High (BOGISS), Bolgatanga",
+        "city": "Bolgatanga",
+        "landmark": "Along Navrongo-Bolga Highway",
+        "schedule": "Saturdays & Sundays (8:00 AM - 4:30 PM)",
+        "coordinator": {
+          "name": "Mr. George Atanga",
+          "title": "Study Center Coordinator",
+          "phone": "+233 24 339 9001",
+          "email": "bolgatanga.center@uew.edu.gh",
+          "office": "Academic Secretariat, Ground Floor",
+          "hours": "Saturdays 8:00 AM - 4:30 PM"
+        },
+        "nearbyHotels": [
+          { "name": "Tap Hotel Bolgatanga", "distance": "1.5km", "rate": "GH₵ 180 - 270 / night", "phone": "+233 38 202 2100", "rating": "4.5" },
+          { "name": "Comme Ci Comme Ca Lodge", "distance": "1.0km", "rate": "GH₵ 140 - 200 / night", "phone": "+233 24 445 6677", "rating": "4.3" }
+        ],
+        "nearbyHealth": [
+          { "name": "Upper East Regional Hospital (Bolga)", "distance": "1.8km", "type": "Regional Public Hospital", "phone": "+233 38 202 2221" }
+        ],
+        "nearbyRestaurants": [
+          { "name": "BOGISS Cafeteria", "distance": "On Campus", "specialty": "Tuo Zaafi with Bean Leaves, Jollof, Guinea Fowl", "openHours": "7:30 AM - 5:00 PM" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "upper-west",
+    "name": "Upper West Region",
+    "shortName": "Upper West",
+    "capital": "Wa",
+    "code": "UWR",
+    "description": "Upper West study center at NJA College of Education, connecting educators in Wa, Lawra, and Tumu.",
+    "programs": [
+      {
+        "id": "uwr-bed-basic",
+        "title": "B.Ed Basic Education",
+        "department": "Department of Basic Education",
+        "level": "Level 100 - 400",
+        "centerIds": ["uwr-nja-wa"]
+      },
+      {
+        "id": "uwr-post-dip",
+        "title": "Post-Diploma B.Ed Administration",
+        "department": "Department of Educational Leadership",
+        "level": "Level 300 - 400",
+        "centerIds": ["uwr-nja-wa"]
+      }
+    ],
+    "centers": [
+      {
+        "id": "uwr-nja-wa",
+        "name": "Nusrat Jahan Ahmadiyya (NJA) College of Education Study Center",
+        "premises": "NJA College Campus, Wa",
+        "city": "Wa",
+        "landmark": "Near Wa Naa's Palace Road",
+        "schedule": "Saturdays & Sundays (8:00 AM - 4:30 PM)",
+        "coordinator": {
+          "name": "Alhaji Maulvi Saeed Ahmad",
+          "title": "Study Center Coordinator",
+          "phone": "+233 24 556 6001",
+          "email": "wa.nja@uew.edu.gh",
+          "office": "Administrative Block, Room 10",
+          "hours": "Saturdays 8:00 AM - 4:30 PM"
+        },
+        "nearbyHotels": [
+          { "name": "Upland Hotel Wa", "distance": "2.0km", "rate": "GH₵ 220 - 320 / night", "phone": "+233 39 202 2400", "rating": "4.6" },
+          { "name": "Wa Royal Guest Lodge", "distance": "900m", "rate": "GH₵ 130 - 180 / night", "phone": "+233 20 881 2233", "rating": "4.2" }
+        ],
+        "nearbyHealth": [
+          { "name": "Upper West Regional Hospital (Wa)", "distance": "2.2km", "type": "Modern Regional Hospital", "phone": "+233 39 202 2110" }
+        ],
+        "nearbyRestaurants": [
+          { "name": "NJA Canteen Spot", "distance": "On Campus", "specialty": "Tuo Zaafi with Ayoyo and Dried Fish, Rice and Beans", "openHours": "7:00 AM - 5:00 PM" },
+          { "name": "Wa Traditional Kitchen", "distance": "800m", "specialty": "Fried Yam with Pepper & Fried Meat, TZ", "openHours": "8:30 AM - 7:30 PM" }
+        ]
+      }
+    ]
+  }
+]

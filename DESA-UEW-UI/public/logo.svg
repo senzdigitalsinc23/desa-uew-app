@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <!-- Outer Ring (Deeper UEW Crimson Red #A8181D) -->
+  <circle cx="60" cy="60" r="58" fill="#A8181D" stroke="#FFFFFF" stroke-width="2"/>
+  <!-- Middle Ring (White) -->
+  <circle cx="60" cy="60" r="50" fill="#FFFFFF"/>
+  <!-- Inner Field (UEW Navy) -->
+  <circle cx="60" cy="60" r="38" fill="#162238"/>
+  
+  <!-- Crest Elements: Open Book & Torch of Knowledge -->
+  <!-- Open Book in Gold and White -->
+  <path d="M 38,72 Q 60,65 60,52 Q 60,65 82,72 L 82,56 Q 60,50 60,40 Q 60,50 38,56 Z" fill="#D4AF37"/>
+  <path d="M 40,70 Q 60,63 60,53 Q 60,63 80,70 L 80,58 Q 60,51 60,42 Q 60,51 40,58 Z" fill="#FFFFFF"/>
+  
+  <!-- Crimson Torch Flame -->
+  <path d="M 57,38 C 54,32 58,26 60,22 C 62,26 66,32 63,38 C 65,34 65,30 63,28 C 61,34 59,35 57,38 Z" fill="#A8181D"/>
+  <circle cx="60" cy="39" r="2.5" fill="#D4AF37"/>
+
+  <!-- Stars / Cog details around ring -->
+  <circle cx="60" cy="11" r="2" fill="#FFFFFF"/>
+  <circle cx="60" cy="109" r="2" fill="#FFFFFF"/>
+  <circle cx="11" cy="60" r="2" fill="#FFFFFF"/>
+  <circle cx="109" cy="60" r="2" fill="#FFFFFF"/>
+</svg>

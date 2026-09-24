@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <linearGradient id="bgGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0E1726"/>
+      <stop offset="100%" stop-color="#162238"/>
+    </linearGradient>
+    <linearGradient id="redGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#C52227"/>
+      <stop offset="50%" stop-color="#A8181D"/>
+      <stop offset="100%" stop-color="#6E0B10"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="400" fill="url(#bgGrad2)"/>
+  <circle cx="200" cy="200" r="185" fill="none" stroke="url(#redGrad2)" stroke-width="6" stroke-dasharray="6 4"/>
+  <circle cx="200" cy="200" r="170" fill="#162238" stroke="#FFFFFF" stroke-width="2"/>
+  
+  <!-- Current President Suit & Official UEW Red Presidential Sash -->
+  <g transform="translate(100, 75) scale(1)">
+    <!-- Suit in Deep UEW Navy -->
+    <path d="M 100,160 Q 40,185 0,265 L 200,265 Q 160,185 100,160 Z" fill="#0E1726" stroke="#1E2F4D" stroke-width="2"/>
+    
+    <!-- Signature UEW Crimson Presidential Sash -->
+    <path d="M 25,265 L 140,160 L 175,175 L 60,265 Z" fill="url(#redGrad2)" opacity="0.95"/>
+    
+    <!-- White shirt and crimson tie -->
+    <polygon points="100,160 85,200 115,200" fill="#FFFFFF"/>
+    <polygon points="96,195 104,195 107,240 100,250 93,240" fill="#A8181D"/>
+    
+    <!-- Head & Hair -->
+    <circle cx="100" cy="115" r="44" fill="#E2E8F0" opacity="0.95"/>
+    <path d="M 60,110 Q 100,65 140,110 Z" fill="#0E1726"/>
+  </g>
+  
+  <rect x="60" y="325" width="280" height="34" rx="17" fill="#162238" stroke="#A8181D" stroke-width="2"/>
+  <text x="200" y="347" font-family="'Plus Jakarta Sans', sans-serif" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="middle" letter-spacing="1">CURRENT PRESIDENT</text>
+</svg>

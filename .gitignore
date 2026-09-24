@@ -1,0 +1,7 @@
+/DESA-UEW-API/.env
+/DESA-UEW-API/vendor/.gitignore
+/DESA-UEW-UI/.env
+/DESA-UEW-UI/node_modules
+/DESA-UEW-UI/dist
+/DESA-UEW-UI/.git
+/DESA-UEW-API/.git
