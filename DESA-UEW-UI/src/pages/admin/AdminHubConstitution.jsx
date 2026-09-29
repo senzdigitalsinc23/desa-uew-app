@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Save, CheckCircle2, AlertCircle, X, Plus, Pencil, Trash2 } from 'lucide-react';
 import { getHubData, persistHubData, resetHubData } from '../../data/hubPersistence';
+import { setNested } from '../../data/nestedSet';
 
 export default function AdminHubConstitution() {
   const [data, setData] = useState(null);
@@ -26,7 +27,7 @@ export default function AdminHubConstitution() {
   if (!data) return <div className="text-sm text-slate-500 font-semibold">Loading...</div>;
 
   const save = (field, value) => {
-    const updated = { ...data, [field]: value };
+    const updated = setNested(data, field, value);
     setData(updated);
     persistHubData(updated);
     setSuccessMsg('Saved'); setTimeout(() => setSuccessMsg(''), 3000);

@@ -26,14 +26,26 @@ class Storage
 
         $disk = $_ENV['FILESYSTEM_DISK'] ?? 'local';
 
-        if ($disk === 's3' && class_exists(\GuzzleHttp\Client::class)) {
+        if ($disk === 's3' && class_exists(\Aws\S3\S3Client::class)) {
             $driver = new \App\Storage\S3Storage(
-                client:   new \GuzzleHttp\Client(),
-                bucket:   $_ENV['S3_BUCKET'] ?? '',
-                region:   $_ENV['S3_REGION'] ?? 'us-east-1',
-                baseUrl:  $_ENV['S3_URL'] ?? null,
-                acl:      $_ENV['S3_ACL'] ?? null,
+                client:   new \Aws\S3\S3Client([
+                    'version' => 'latest',
+                    'region'  => $_ENV['S3_REGION'] ?? 'us-east-1',
+                    'credentials' => [
+                        'key'    => $_ENV['S3_ACCESS_KEY_ID'] ?? '',
+                        'secret' => $_ENV['S3_SECRET_ACCESS_KEY'] ?? '',
+                    ],
+                    'use_path_style_endpoint' => !empty($_ENV['S3_URL']),
+                ]),
+                bucket:  $_ENV['S3_BUCKET'] ?? '',
+                region:  $_ENV['S3_REGION'] ?? 'us-east-1',
+                baseUrl: $_ENV['S3_URL'] ?? null,
+                acl:     $_ENV['S3_ACL'] ?? null,
             );
+        } elseif ($disk === 'google-drive' && class_exists(\Google_Client::class)) {
+            $driver = new \App\Storage\GoogleDriveStorage();
+        } elseif ($disk === 'dropbox' && class_exists(\Dropbox\DropboxClient::class)) {
+            $driver = new \App\Storage\DropboxStorage();
         } else {
             $driver = new \App\Storage\LocalFileStorage();
         }

@@ -1,4 +1,5 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { motion, useInView } from 'framer-motion';
 import {
   Info,
@@ -9,7 +10,10 @@ import {
   Building2,
   Megaphone,
   UserCog,
+  ArrowUp,
 } from 'lucide-react';
+import SearchBox from '../components/SearchBox';
+import { listMediaFiles } from '../services/api';
 
 const sections = [
   { id: 'about', label: 'About DESA', icon: Info },
@@ -79,10 +83,72 @@ function ScrollSection({ id, title, subtitle, icon: Icon, children, accentColor 
 
 export default function DesaHubPage() {
   const scrollContainerRef = useRef(null);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState('');
+  const [activeSection, setActiveSection] = useState(null);
+  const [showBackToTop, setShowBackToTop] = useState(false);
+  const [galleryImages, setGalleryImages] = useState([]);
+  const isApiMode = import.meta.env.VITE_DATA_SOURCE === 'api_access';
+
+  // Load gallery images from media API
+  useEffect(() => {
+    if (!isApiMode) return;
+    listMediaFiles({ category: 'gallery', limit: 12 }).then((data) => {
+      setGalleryImages(data || []);
+    }).catch(() => {});
+  }, [isApiMode]);
+
+  // Show/hide back-to-top button on scroll
+  useEffect(() => {
+    function handleScroll() {
+      setShowBackToTop(window.scrollY > 400);
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Read search query from navigation state (when coming from SeekPage)
+  useEffect(() => {
+    const { searchQuery: sq, section } = location.state || {};
+    if (sq) {
+      setSearchQuery(sq);
+      if (section) {
+        setActiveSection(section);
+      }
+    }
+  }, [location.state]);
 
   const scrollTo = (id) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
+
+  // Scroll to hash section on mount or when hash changes
+  useEffect(() => {
+    const hash = window.location.hash?.replace('#', '');
+    if (hash) {
+      const timer = setTimeout(() => {
+        const el = document.getElementById(hash);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [location.pathname]);
+
+  // Auto-scroll to active section when set from search
+  useEffect(() => {
+    if (activeSection) {
+      const timer = setTimeout(() => {
+        const el = document.getElementById(activeSection);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 400);
+      return () => clearTimeout(timer);
+    }
+  }, [activeSection]);
 
   return (
     <div className="min-h-screen w-full flex flex-col bg-[#F4F7FB] overflow-x-hidden">
@@ -92,15 +158,36 @@ export default function DesaHubPage() {
 
       {/* Header */}
       <header className="sticky top-0 z-30 bg-white/90 backdrop-blur-xl border-b border-slate-200/60 px-4 py-3 shadow-sm">
-        <div className="max-w-6xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-uew-red flex items-center justify-center shadow-sm">
-              <Users className="w-5 h-5 text-white" />
+        <div className="max-w-6xl mx-auto flex flex-col gap-3">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-xl bg-uew-red flex items-center justify-center shadow-sm">
+                <Users className="w-5 h-5 text-white" />
+              </div>
+              <div>
+                <h1 className="text-sm font-black text-uew-navy leading-tight">DESA Hub</h1>
+                <p className="text-[10px] text-slate-500 font-semibold">University of Education, Winneba</p>
+              </div>
             </div>
-            <div>
-              <h1 className="text-sm font-black text-uew-navy leading-tight">DESA Hub</h1>
-              <p className="text-[10px] text-slate-500 font-semibold">University of Education, Winneba</p>
-            </div>
+            <button onClick={() => navigate('/seek')} className="text-xs font-bold text-uew-red hover:underline cursor-pointer">
+              ← Back to Search
+            </button>
+          </div>
+          <div className="max-w-lg w-full">
+            <SearchBox
+              value={searchQuery}
+              onChange={setSearchQuery}
+              onSubmit={(e) => {
+                e.preventDefault();
+                const section = ['committee', 'leadership', 'constitution', 'about', 'archives', 'assets', 'gallery', 'activities'].find(s => searchQuery.toLowerCase().includes(s));
+                if (section) {
+                  setActiveSection(section);
+                  scrollTo(section);
+                }
+              }}
+              onClear={() => { setSearchQuery(''); setActiveSection(null); }}
+              placeholder="Search hub sections..."
+            />
           </div>
         </div>
       </header>
@@ -236,22 +323,42 @@ export default function DesaHubPage() {
             icon={Image}
             accentColor="gold"
           >
-            <div>
+            {isApiMode && galleryImages.length > 0 ? (
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                {[1, 2, 3, 4, 5, 6].map((i) => (
-                  <div
-                    key={i}
-                    className="aspect-square rounded-xl bg-slate-100 border-2 border-dashed border-slate-300 flex flex-col items-center justify-center gap-2 hover:border-uew-red/40 hover:bg-red-50 transition-colors cursor-pointer group"
-                  >
-                    <Image className="w-6 h-6 text-slate-300 group-hover:text-uew-red transition-colors" />
-                    <span className="text-[10px] text-slate-400 group-hover:text-uew-red font-semibold transition-colors">Photo {i}</span>
+                {galleryImages.map((img) => (
+                  <div key={img.id} className="aspect-square rounded-xl overflow-hidden bg-slate-100 border border-slate-200 relative">
+                    <img
+                      src={img.url}
+                      alt={img.description || img.original_name}
+                      className="w-full h-full object-top"
+                      onError={(e) => { e.target.style.display = 'none'; }}
+                    />
+                    <div className="absolute inset-x-0 bottom-0 bg-gradient-to-r from-uew-blue to-uew-red p-2">
+                      <p className="text-[10px] font-bold text-white uppercase tracking-wide overflow-x-auto whitespace-nowrap">
+                        {img.description || img.original_name}
+                      </p>
+                    </div>
                   </div>
                 ))}
               </div>
-              <p className="text-xs text-slate-500 text-center mt-4">
-                Gallery photos will be uploaded soon. Stay tuned for event highlights and community moments.
-              </p>
-            </div>
+            ) : (
+              <div>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                  {[1, 2, 3, 4, 5, 6].map((i) => (
+                    <div
+                      key={i}
+                      className="aspect-square rounded-xl bg-slate-100 border-2 border-dashed border-slate-300 flex flex-col items-center justify-center gap-2"
+                    >
+                      <Image className="w-6 h-6 text-slate-300" />
+                      <span className="text-[10px] text-slate-400 font-semibold">Photo {i}</span>
+                    </div>
+                  ))}
+                </div>
+                <p className="text-xs text-slate-500 text-center mt-4">
+                  Gallery photos will be uploaded soon. Stay tuned for event highlights and community moments.
+                </p>
+              </div>
+            )}
           </ScrollSection>
 
           {/* 4. Constitution */}
@@ -448,6 +555,15 @@ export default function DesaHubPage() {
       <footer className="py-5 px-4 text-center border-t border-slate-200 bg-white">
         <p className="text-[10px] text-slate-400 font-medium">Education for Service · DESA · UEW</p>
       </footer>
+
+      {/* Back to top */}
+      <button
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        className={`fixed bottom-6 right-6 z-50 w-11 h-11 rounded-full bg-uew-red text-white shadow-lg flex items-center justify-center transition-all duration-300 hover:bg-red-700 ${showBackToTop ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'}`}
+        title="Back to top"
+      >
+        <ArrowUp className="w-5 h-5" />
+      </button>
     </div>
   );
 }

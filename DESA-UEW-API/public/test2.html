@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h1>Test Upload via React App</h1>
+<input type="file" id="f">
+<button onclick="go()">Upload</button>
+<pre id="o"></pre>
+<script>
+async function go() {
+    const f = document.getElementById('f').files[0];
+    if (!f) { alert('no file'); return; }
+    const fd = new FormData();
+    fd.append('file', f);
+    fd.append('category', 'gallery');
+    console.log('File:', f.name, f.size);
+    console.log('FormData file:', fd.get('file'));
+    const r = await fetch('http://localhost:8000/echo2.php', {method:'POST', body:fd});
+    document.getElementById('o').textContent = await r.text();
+}
+</script>
+</body>
+</html>

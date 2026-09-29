@@ -25,9 +25,69 @@ const categoryMeta = {
     icon: MapPin, color: 'sky',
     bg: 'bg-sky-50', text: 'text-sky-800', border: 'border-sky-200',
   },
+  'Study Center': {
+    icon: MapPin, color: 'sky',
+    bg: 'bg-sky-50', text: 'text-sky-800', border: 'border-sky-200',
+  },
+  'Region': {
+    icon: Building2, color: 'blue',
+    bg: 'bg-blue-50', text: 'text-blue-800', border: 'border-blue-200',
+  },
+  'Program': {
+    icon: GraduationCap, color: 'emerald',
+    bg: 'bg-emerald-50', text: 'text-emerald-800', border: 'border-emerald-200',
+  },
   'DESA Hub': {
     icon: Users, color: 'red',
     bg: 'bg-red-50', text: 'text-uew-red', border: 'border-red-200',
+  },
+  'About DESA': {
+    icon: Info, color: 'red',
+    bg: 'bg-red-50', text: 'text-uew-red', border: 'border-red-200',
+  },
+  'Mission': {
+    icon: Info, color: 'red',
+    bg: 'bg-red-50', text: 'text-uew-red', border: 'border-red-200',
+  },
+  'Vision': {
+    icon: Info, color: 'red',
+    bg: 'bg-red-50', text: 'text-uew-red', border: 'border-red-200',
+  },
+  'Leadership': {
+    icon: Users, color: 'red',
+    bg: 'bg-red-50', text: 'text-uew-red', border: 'border-red-200',
+  },
+  'Constitution': {
+    icon: FileText, color: 'purple',
+    bg: 'bg-purple-50', text: 'text-purple-800', border: 'border-purple-200',
+  },
+  'Article': {
+    icon: FileText, color: 'purple',
+    bg: 'bg-purple-50', text: 'text-purple-800', border: 'border-purple-200',
+  },
+  'Committee': {
+    icon: Users, color: 'red',
+    bg: 'bg-red-50', text: 'text-uew-red', border: 'border-red-200',
+  },
+  'Archive': {
+    icon: FileText, color: 'amber',
+    bg: 'bg-amber-50', text: 'text-amber-900', border: 'border-amber-200',
+  },
+  'Asset': {
+    icon: Layers, color: 'slate',
+    bg: 'bg-slate-50', text: 'text-slate-700', border: 'border-slate-200',
+  },
+  'Gallery': {
+    icon: Monitor, color: 'indigo',
+    bg: 'bg-indigo-50', text: 'text-indigo-800', border: 'border-indigo-200',
+  },
+  'Announcement': {
+    icon: Megaphone, color: 'red',
+    bg: 'bg-rose-50', text: 'text-rose-800', border: 'border-rose-200',
+  },
+  'Event': {
+    icon: CalendarDays, color: 'purple',
+    bg: 'bg-purple-50', text: 'text-purple-800', border: 'border-purple-200',
   },
   'DeLaC': {
     icon: GraduationCap, color: 'blue',
@@ -89,8 +149,37 @@ const systemTypeIcons = {
   event: CalendarDays,
 };
 
+function getDisplayCategory(item) {
+  if (item.displayCategory) return item.displayCategory;
+  const st = item.systemType;
+  const cat = item.category;
+  if (st === 'program') return 'Program';
+  if (st === 'center') return 'Study Center';
+  if (st === 'region') return 'Region';
+  if (st === 'announcement' || cat === 'Announcement') return 'Announcement';
+  if (st === 'event') return 'Event';
+  if (cat === 'Study Centers') return 'Program';
+  // Hub sub-categories
+  if (st === 'hub') {
+    const sec = item.rawItem?._section;
+    if (sec === 'mission') return 'Mission';
+    if (sec === 'vision') return 'Vision';
+    if (item.id?.startsWith('leader-')) return 'Leadership';
+    if (item.id?.startsWith('const-') && !item.id.startsWith('constitution')) return 'Article';
+    if (item.id === 'hub-constitution') return 'Constitution';
+    if (item.id?.startsWith('committee-')) return 'Committee';
+    if (item.id?.startsWith('archive-')) return 'Archive';
+    if (item.id?.startsWith('asset-')) return 'Asset';
+    if (item.id === 'hub-about') return 'About DESA';
+    if (item.id?.startsWith('gallery-')) return 'Gallery';
+    return 'DESA Hub';
+  }
+  return cat;
+}
+
 export default function ResultCard({ item, onSelect }) {
-  const meta = categoryMeta[item.category] || categoryMeta['General Info'];
+  const displayCat = getDisplayCategory(item);
+  const meta = categoryMeta[displayCat] || categoryMeta[item.category] || categoryMeta['General Info'];
   const Icon = meta.icon;
   const SystemIcon = systemTypeIcons[item.systemType];
 
@@ -112,7 +201,7 @@ export default function ResultCard({ item, onSelect }) {
         <div className="flex items-start justify-between gap-2 mb-3">
           <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold border ${meta.bg} ${meta.text} ${meta.border}`}>
             <Icon className="w-3 h-3" />
-            {item.category}
+            {displayCat}
           </span>
 
           {SystemIcon && (

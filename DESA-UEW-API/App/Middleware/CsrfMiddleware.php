@@ -47,10 +47,17 @@ class CsrfMiddleware
             return $response;
         }
 
+        // Skip CSRF for unauthenticated requests (login/register have no session token yet)
+        $sessionToken = $_SESSION['_csrf_token'] ?? '';
+        if (!$sessionToken && !$hasBearer && !$hasApiKey) {
+            if ($next) return $next($request, $response);
+            return $response;
+        }
+
         // Web session CSRF check
         $token = $headers['x-csrf-token'] ?? ($request ? $request->input('_csrf', '') : '');
 
-        if (!$token || $token !== ($_SESSION['_csrf_token'] ?? '')) {
+        if ($sessionToken && (!$token || $token !== $sessionToken)) {
             $resp = $response ?? new Response();
             $resp->setStatusCode(419);
             $resp->setHeader('Content-Type', 'application/json');

@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { UserCircle, AlertCircle, ChevronDown, ChevronUp } from 'lucide-react';
+import { UserCircle, AlertCircle, ChevronDown, ChevronUp, ArrowUp } from 'lucide-react';
 import SearchBox from '../components/SearchBox';
 import FilterChips from '../components/FilterChips';
 import ResultCard from '../components/ResultCard';
@@ -33,7 +33,7 @@ const CATEGORIES = [
 // Keywords that auto-detect category
 const CATEGORY_KEYWORDS = {
   'Study Centers': ['center', 'centers', 'study center', 'study centers', 'region', 'regions', 'coordinator', 'campus', 'location', 'place', 'address', 'hotel', 'accommodation', 'guest house'],
-  'DESA Hub': ['desa hub', 'event', 'events', 'activity', 'activities', 'conference', 'meeting', 'gala', 'congress'],
+  'DESA Hub': ['desa hub', 'event', 'events', 'activity', 'activities', 'conference', 'meeting', 'gala', 'congress', 'leadership', 'leader', 'president', 'vice president', 'secretary', 'treasurer', 'welfare officer', 'publicity', 'officer', 'constitution', 'constitutional', 'article', 'committee', 'committees', 'about desa', 'mission', 'vision', 'values', 'archive', 'archives', 'asset', 'assets', 'gallery', 'desa', 'association'],
   'Announcement Hub': ['announcement', 'announcements', 'notice', 'notices', 'news', 'alert', 'update'],
   'Academic Peer PPT': ['ppt', 'presentation', 'slides', 'peer ppt'],
   '24/7 Academic Vault': ['vault', 'academic vault', 'resource', 'resources', 'material', 'materials'],
@@ -42,19 +42,68 @@ const CATEGORY_KEYWORDS = {
   'Internship Opportunity Network': ['internship', 'internships', 'network', 'placement'],
   'Supervisor Connection Initiative': ['supervisor', 'supervision', 'connection'],
   'Student Health Referral Network': ['health', 'health referral', 'medical', 'clinic', 'hospital', 'referral'],
-  'Welfare': ['welfare', 'welfare support'],
+  'Welfare': ['welfare', 'welfare support', 'welfare officer'],
   'Alumni': ['alumni', 'alumnus', 'graduate'],
+};
+
+// Map query tokens to exact DESA Hub section IDs for direct navigation
+const HUB_SECTION_KEYWORDS = {
+  'committee': ['committee', 'committees'],
+  'leadership': ['leadership', 'leader', 'president', 'vice president', 'secretary', 'treasurer', 'welfare officer', 'publicity secretary'],
+  'constitution': ['constitution', 'constitutional', 'article'],
+  'about': ['about desa', 'mission', 'vision', 'values', 'history'],
+  'archives': ['archive', 'archives', 'annual report', 'proceedings'],
+  'assets': ['asset', 'assets', 'equipment', 'inventory'],
+  'gallery': ['gallery'],
+  'activities': ['event', 'events', 'activity', 'activities', 'conference', 'meeting', 'gala', 'congress', 'announcement', 'announcements'],
 };
 
 function detectCategory(query) {
   if (!query.trim()) return 'Study Centers';
   const q = query.toLowerCase();
-  for (const [cat, keywords] of Object.entries(CATEGORY_KEYWORDS)) {
+  // Check specific category keywords first (most specific wins)
+  const checks = [
+    ['Study Centers', ['center', 'centers', 'study center', 'study centers', 'region', 'regions', 'coordinator', 'campus', 'location', 'place', 'address', 'hotel', 'accommodation', 'guest house']],
+    ['Welfare', ['welfare', 'welfare support', 'welfare officer']],
+    ['Alumni', ['alumni', 'alumnus', 'graduate']],
+    ['Announcement Hub', ['announcement', 'announcements', 'notice', 'notices', 'news', 'alert', 'update']],
+    ['Academic Peer PPT', ['ppt', 'presentation', 'slides', 'peer ppt']],
+    ['24/7 Academic Vault', ['vault', 'academic vault', 'resource', 'resources', 'material', 'materials']],
+    ['DESA Opportunity Radar', ['opportunity', 'opportunities', 'radar']],
+    ['Digital Student Opportunity Board', ['board', 'student board', 'digital board']],
+    ['Internship Opportunity Network', ['internship', 'internships', 'network', 'placement']],
+    ['Supervisor Connection Initiative', ['supervisor', 'supervision', 'connection']],
+    ['Student Health Referral Network', ['health', 'health referral', 'medical', 'clinic', 'hospital', 'referral']],
+    ['DESA Hub', ['event', 'events', 'activity', 'activities', 'conference', 'meeting', 'gala', 'congress', 'leadership', 'leader', 'president', 'vice president', 'secretary', 'treasurer', 'publicity', 'officer', 'constitution', 'constitutional', 'article', 'committee', 'committees', 'about desa', 'mission', 'vision', 'values', 'archive', 'archives', 'asset', 'assets', 'gallery', 'desa', 'association']],
+  ];
+  for (const [cat, keywords] of checks) {
     for (const kw of keywords) {
       if (q.includes(kw)) return cat;
     }
   }
   return 'Study Centers';
+}
+
+function detectHubSection(query) {
+  if (!query.trim()) return null;
+  const q = query.toLowerCase();
+  // Check most-specific sections first
+  const checks = [
+    ['committee', ['committee', 'committees']],
+    ['leadership', ['leadership', 'leader', 'president', 'vice president', 'secretary', 'treasurer', 'welfare officer', 'publicity secretary']],
+    ['constitution', ['constitution', 'constitutional', 'article']],
+    ['about', ['about desa', 'mission', 'vision', 'values', 'history']],
+    ['archives', ['archive', 'archives', 'annual report', 'proceedings']],
+    ['assets', ['asset', 'assets', 'equipment', 'inventory']],
+    ['gallery', ['gallery']],
+    ['activities', ['event', 'events', 'activity', 'activities', 'conference', 'meeting', 'gala', 'congress', 'announcement', 'announcements']],
+  ];
+  for (const [section, keywords] of checks) {
+    for (const kw of keywords) {
+      if (q.includes(kw)) return section;
+    }
+  }
+  return null;
 }
 
 export default function SeekPage() {
@@ -69,6 +118,7 @@ export default function SeekPage() {
   const [hasSearched, setHasSearched] = useState(urlQuery.length > 0);
   const [quickLinksOpen, setQuickLinksOpen] = useState(false);
   const quickLinksRef = useRef(null);
+  const hubNavTimeout = useRef(null);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -78,7 +128,10 @@ export default function SeekPage() {
       }
     }
     document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      if (hubNavTimeout.current) clearTimeout(hubNavTimeout.current);
+    };
   }, []);
 
   useEffect(() => {
@@ -101,22 +154,19 @@ export default function SeekPage() {
   useEffect(() => {
     let cancelled = false;
     async function load() {
-      const items = getUnifiedDirectory();
-      const centers = await getPublicCentersData();
+      const [items, centers] = await Promise.all([getUnifiedDirectory(), getPublicCentersData()]);
       if (!cancelled) {
         setAllDirectoryItems(items);
         setRegionsList(['All Regions', ...centers.map((r) => r.name)]);
       }
     }
     load();
-    const handler = () => {
-      const items = getUnifiedDirectory();
-      getPublicCentersData().then((centers) => {
-        if (!cancelled) {
-          setAllDirectoryItems(items);
-          setRegionsList(['All Regions', ...centers.map((r) => r.name)]);
-        }
-      });
+    const handler = async () => {
+      const [items, centers] = await Promise.all([getUnifiedDirectory(), getPublicCentersData()]);
+      if (!cancelled) {
+        setAllDirectoryItems(items);
+        setRegionsList(['All Regions', ...centers.map((r) => r.name)]);
+      }
     };
     window.addEventListener('desa-data-changed', handler);
     return () => { cancelled = true; window.removeEventListener('desa-data-changed', handler); };
@@ -133,16 +183,59 @@ export default function SeekPage() {
   }, [allDirectoryItems]);
 
   const filteredResults = useMemo(() => {
-    let results = searchDirectory(allDirectoryItems, searchQuery, selectedCategory);
+    // When searching, show results from ALL categories; category tab only filters when no query
+    const showAllCategories = searchQuery.trim().length > 0;
+    let results = searchDirectory(allDirectoryItems, searchQuery, showAllCategories ? 'All' : selectedCategory);
     if (selectedCategory === 'Study Centers' && selectedRegion !== 'All Regions') {
-      results = results.filter((item) => item.region === selectedRegion);
+      results = results.filter((item) => {
+        // Always keep program items — they're available in all regions
+        if (item.systemType === 'program') return true;
+        // Filter non-program items by region
+        return item.region === selectedRegion;
+      });
     }
     return results;
   }, [allDirectoryItems, searchQuery, selectedCategory, selectedRegion]);
 
+  const groupedResults = useMemo(() => {
+    if (!searchQuery.trim()) return null;
+    // Group when there are centers AND programs in results
+    const centers = filteredResults.filter((i) => i.systemType === 'center' || i.category === 'Study Center');
+    const programs = filteredResults.filter((i) => i.systemType === 'program');
+    const hubItems = filteredResults.filter((i) => i.systemType === 'hub');
+    const other = filteredResults.filter(
+      (i) => i.systemType !== 'center' && i.systemType !== 'program' && i.systemType !== 'hub'
+    );
+    const groups = {};
+    if (centers.length > 0) groups.centers = centers;
+    if (programs.length > 0) groups.programs = programs;
+    if (hubItems.length > 0) groups['DESA Hub'] = hubItems;
+    if (other.length > 0) groups.other = other;
+    return Object.keys(groups).length > 1 ? groups : null;
+  }, [filteredResults, searchQuery]);
+
+  const handleHubKeyPress = (e) => {
+    // Clear any pending navigation
+    if (hubNavTimeout.current) clearTimeout(hubNavTimeout.current);
+    const query = e.target.value?.trim();
+    if (!query) return;
+    const section = detectHubSection(query);
+    if (section) {
+      hubNavTimeout.current = setTimeout(() => {
+        navigate('/hub', { state: { searchQuery: query, section } });
+      }, 600);
+    }
+  };
+
   const handleSearch = (e) => {
     e?.preventDefault();
     if (searchQuery.trim()) {
+      // If query matches a hub section, navigate directly with full page reload to ensure hash works
+      const section = detectHubSection(searchQuery);
+      if (section) {
+        navigate('/hub', { state: { searchQuery: searchQuery.trim(), section } });
+        return;
+      }
       setSearchParams({ q: searchQuery.trim() });
     } else {
       setSearchParams({});
@@ -162,6 +255,17 @@ export default function SeekPage() {
   const handleSelectItem = (item) => {
     setActiveModalItem(item);
   };
+
+  const [showBackToTop, setShowBackToTop] = useState(false);
+
+  // Show/hide back-to-top button on scroll
+  useEffect(() => {
+    function handleScroll() {
+      setShowBackToTop(window.scrollY > 400);
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const hasActiveSearch = hasSearched || searchQuery.trim().length > 0;
   return (
@@ -248,7 +352,7 @@ export default function SeekPage() {
       </header>
 
       {/* Hero — search field always mounted; avatar/name hidden once search is active */}
-      <main className="flex-1 flex flex-col items-center px-4 py-8 sm:py-12 md:py-16">
+      <main className="flex flex-col items-center px-4 py-8 sm:py-12 md:py-16">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, ease: 'easeOut' }} className="w-full max-w-lg flex flex-col items-center text-center">
           {/* President Avatar — hidden when searching */}
           {!hasActiveSearch && (
@@ -279,12 +383,14 @@ export default function SeekPage() {
           {/* Search — always mounted at the same position so focus is never lost */}
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.35 }} className="w-full max-w-lg">
             <SearchBox
-              value={searchQuery}
-              onChange={(v) => setSearchQuery(v)}
-              onClear={() => { setSearchQuery(''); setSearchParams({}); }}
-              placeholder="Search courses, exams, fees, centers..."
-              totalRecords={allDirectoryItems.length}
-            />
+                value={searchQuery}
+                onChange={(v) => setSearchQuery(v)}
+                onKeyPress={handleHubKeyPress}
+                onSubmit={handleSearch}
+                onClear={() => { setSearchQuery(''); setSearchParams({}); }}
+                placeholder="Search courses, exams, fees, centers..."
+                totalRecords={allDirectoryItems.length}
+              />
           </motion.div>
 
           {!hasActiveSearch && (
@@ -334,6 +440,36 @@ export default function SeekPage() {
         <div className="w-full max-w-5xl flex-1">
           {selectedCategory === 'DESA Hub' ? (
             <DesaHubContent />
+          ) : groupedResults ? (
+            <AnimatePresence mode="wait">
+              {Object.entries(groupedResults).map(([groupKey, items], gi) =>
+                items.length > 0 ? (
+                  <motion.div
+                    key={`${groupKey}-${gi}`}
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.2, delay: gi * 0.05 }}
+                    className="mb-8"
+                  >
+                    <div className="flex items-center gap-3 mb-4">
+                      <h3 className="text-sm font-black text-uew-navy uppercase tracking-wider">
+                        {groupKey === 'centers' ? `Study Centers (${items.length})` :
+                         groupKey === 'programs' ? `Programs (${items.length})` :
+                         groupKey === 'other' ? `Other Results (${items.length})` :
+                         `${groupKey} (${items.length})`}
+                      </h3>
+                      <div className="flex-1 h-px bg-slate-200" />
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                      {items.map((item) => (
+                        <ResultCard key={item.id} item={item} onSelect={handleSelectItem} />
+                      ))}
+                    </div>
+                  </motion.div>
+                ) : null
+              )}
+            </AnimatePresence>
           ) : filteredResults.length > 0 ? (
             <AnimatePresence mode="wait">
               <motion.div
@@ -382,6 +518,15 @@ export default function SeekPage() {
       <footer className="py-4 px-4 text-center border-t border-slate-200 bg-white/60">
         <p className="text-[10px] text-slate-400 font-medium">Education for Service · DESA SEEK Portal · UEW</p>
       </footer>
+
+      {/* Back to top */}
+      <button
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        className={`fixed bottom-6 right-6 z-50 w-11 h-11 rounded-full bg-uew-red text-white shadow-lg flex items-center justify-center transition-all duration-300 hover:bg-red-700 ${showBackToTop ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'}`}
+        title="Back to top"
+      >
+        <ArrowUp className="w-5 h-5" />
+      </button>
     </div>
   );
 }

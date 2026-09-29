@@ -146,7 +146,7 @@ class AuthService
     /**
      * Revoke ALL refresh tokens for the current user (logout from all devices).
      */
-    public function logoutAll(string $userId): int
+    public function logoutAll(string|int $userId): int
     {
         return $this->refreshRepo->revokeAllForUser($userId);
     }
@@ -177,7 +177,7 @@ class AuthService
     /**
      * List all active refresh tokens for a user (remembered devices).
      */
-    public function listRefreshTokens(string $userId): array
+    public function listRefreshTokens(string|int $userId): array
     {
         return $this->refreshRepo->findByUser($userId);
     }
@@ -197,14 +197,14 @@ class AuthService
         ], $this->secret, 'HS256');
     }
 
-    private function generateRefreshToken(string $userId): string
+    private function generateRefreshToken(string|int $userId): string
     {
         $plainToken = bin2hex(random_bytes(64));
         $this->refreshRepo->create($userId, $plainToken);
         return $plainToken;
     }
 
-    private function check2faEnabled(string $userId): bool
+    private function check2faEnabled(string|int $userId): bool
     {
         try {
             $db = Database::getInstance()->getConnection();

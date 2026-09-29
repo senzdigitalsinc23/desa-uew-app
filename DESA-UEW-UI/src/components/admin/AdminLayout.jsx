@@ -21,6 +21,8 @@ import {
   UserCog,
   ChevronDown,
   ChevronRight,
+  Image,
+  FolderTree,
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 
@@ -45,11 +47,18 @@ const GROUPS = [
     items: [
       { id: 'hub-about', label: 'About DESA', icon: Info },
       { id: 'hub-leadership', label: 'Leadership Tree', icon: Users },
+      { id: 'hub-gallery', label: 'Hub Gallery', icon: Image },
       { id: 'hub-constitution', label: 'Constitution', icon: ScrollText },
       { id: 'hub-archives', label: 'Archives', icon: Archive },
       { id: 'hub-assets', label: 'Asset Register', icon: Building },
       { id: 'hub-activities', label: 'Activities', icon: Megaphone },
       { id: 'hub-committee', label: 'Committees', icon: UserCog },
+    ],
+  },
+  {
+    label: 'Media',
+    items: [
+      { id: 'media', label: 'Media Files', icon: FolderTree },
     ],
   },
 ];

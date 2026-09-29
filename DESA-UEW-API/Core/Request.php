@@ -12,6 +12,7 @@ class Request extends ServerRequest implements RequestInterface
     protected array $bodyParams = [];
     protected array $queryParams = [];
     protected array $attributes = [];
+    protected ?array $parsedBody = null;
 
     public function __construct(?string $method = null, ?UriInterface $uri = null, array $headers = [], $body = null, string $version = '1.1', array $serverParams = [])
     {
@@ -25,10 +26,13 @@ class Request extends ServerRequest implements RequestInterface
 
         // Read globals at construction time
         $this->queryParams = $_GET ?? [];
-        $this->bodyParams = $this->detectBodyParams();
 
-        // Build PSR-7 request from current globals
+        // Build PSR-7 request from current globals FIRST so getBody() works
         $psrRequest = \GuzzleHttp\Psr7\ServerRequest::fromGlobals();
+
+        // Capture parsed body BEFORE parent::__construct() re-reads from stream
+        // (the stream may be empty if body was parsed from $_POST/$_FILES already)
+        $this->parsedBody = $psrRequest->getParsedBody();
 
         parent::__construct(
             $psrRequest->getMethod(),
@@ -38,6 +42,9 @@ class Request extends ServerRequest implements RequestInterface
             $psrRequest->getProtocolVersion(),
             $psrRequest->getServerParams()
         );
+
+        // Now detect body params after parent is initialized
+        $this->bodyParams = $this->detectBodyParams();
     }
 
     /**
@@ -82,6 +89,11 @@ class Request extends ServerRequest implements RequestInterface
 
     public function getPost(?string $key = null, mixed $default = null): mixed
     {
+        // Use cached parsed body first, fall back to PSR-7
+        if ($this->parsedBody !== null) {
+            if ($key === null) return $this->parsedBody;
+            return is_array($this->parsedBody) ? ($this->parsedBody[$key] ?? $default) : $default;
+        }
         $post = $this->getParsedBody();
         if ($key === null) return $post ?? [];
         return is_array($post) ? ($post[$key] ?? $default) : $default;
@@ -92,6 +104,15 @@ class Request extends ServerRequest implements RequestInterface
         $files = $this->getUploadedFiles();
         if ($key === null) return $files;
         return $files[$key] ?? null;
+    }
+
+    /**
+     * Override to read directly from $_FILES since parent::__construct()
+     * drops the uploaded files stored in the private $uploadedFiles property.
+     */
+    public function getUploadedFiles(): array
+    {
+        return \GuzzleHttp\Psr7\ServerRequest::normalizeFiles($_FILES ?? []);
     }
 
     public function input(string $key, $default = null)

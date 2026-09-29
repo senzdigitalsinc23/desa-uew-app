@@ -15,7 +15,9 @@
         "stripe/stripe-php": "^17.5",
         "paypal/rest-api-sdk-php": "^1.6",
         "zircote/swagger-php": "^5.7",
-        "guzzlehttp/psr7": "^2.12",
+        "guzzlehttp/psr7": "^2.13",
+        "guzzlehttp/guzzle": "^7.8",
+        "aws/aws-sdk-php": "^3.0",
         "psr/http-server-middleware": "*",
         "psr/event-dispatcher": "*",
         "psr/cache": "*"

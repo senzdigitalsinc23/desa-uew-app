@@ -21,6 +21,7 @@ import AdminHubAssets from './pages/admin/AdminHubAssets';
 import AdminHubActivities from './pages/admin/AdminHubActivities';
 import AdminHubCommittee from './pages/admin/AdminHubCommittee';
 import AdminHubGallery from './pages/admin/AdminHubGallery';
+import AdminMedia from './pages/admin/AdminMedia';
 
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth();
@@ -61,6 +62,7 @@ export default function AppRoutes() {
                 <Route path="hub-activities" element={<AdminHubActivities />} />
                 <Route path="hub-committee" element={<AdminHubCommittee />} />
                 <Route path="hub-gallery" element={<AdminHubGallery />} />
+                <Route path="media" element={<AdminMedia />} />
                 <Route path="*" element={<Navigate to="/admin" replace />} />
               </Routes>
             </AdminLayout>

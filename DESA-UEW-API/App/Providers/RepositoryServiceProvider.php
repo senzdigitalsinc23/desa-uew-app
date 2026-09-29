@@ -13,6 +13,7 @@ use App\Repositories\AcademicSetupRepository;
 use App\Repositories\AcademicYearRepository;
 use App\Repositories\SubjectRepository;
 use App\Repositories\ClassRepository;
+use App\Repositories\DesaRepository;
 
 class RepositoryServiceProvider implements ServiceProviderInterface
 {
@@ -50,6 +51,9 @@ class RepositoryServiceProvider implements ServiceProviderInterface
                 $app->resolve(PDO::class),
                 $app->resolve(Cache::class)
             )
+        );
+        $app->singleton(DesaRepository::class, fn($app) =>
+            new DesaRepository($app->resolve(\App\Core\Database::class))
         );
     }
 }

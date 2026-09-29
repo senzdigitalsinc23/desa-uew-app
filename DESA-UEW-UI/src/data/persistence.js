@@ -12,7 +12,41 @@ const API_BASE = import.meta.env.VITE_API_BASE_URI || '';
 async function apiGet(endpoint) {
   const res = await fetch(`${API_BASE}${endpoint}`);
   if (!res.ok) throw new Error(`API GET failed: ${res.status}`);
-  return res.json();
+  const json = await res.json();
+  // Unwrap {success:true, data:...} responses
+  let payload = json.data !== undefined ? json.data : json;
+
+  // Transform API snake_case flat format to frontend camelCase nested format for centers
+  if (endpoint === '/data/centers' && Array.isArray(payload)) {
+    payload = payload.map(r => ({
+      id:            r.slug,
+      name:          r.name,
+      shortName:     r.short_name,
+      capital:       r.capital || '',
+      code:          r.code || '',
+      description:   r.description || '',
+      centers:       Array.isArray(r.centers) ? r.centers.map(c => ({
+        ...c,
+        nearbyHotels:        c.nearby_hotels || [],
+        nearbyHealth:        c.nearby_health || [],
+        nearbyRestaurants:   c.nearby_restaurants || [],
+      })) : [],
+      programs: Array.isArray(r.programs) ? r.programs : [],
+    }));
+  } else if (endpoint === '/desa/regions' && Array.isArray(payload)) {
+    payload = payload.map(r => ({
+      ...r,
+      short_name: r.short_name,
+      centers:    Array.isArray(r.centers) ? r.centers.map(c => ({
+        ...c,
+        nearbyHotels:        c.nearby_hotels || [],
+        nearbyHealth:        c.nearby_health || [],
+        nearbyRestaurants:   c.nearby_restaurants || [],
+      })) : [],
+      programs: Array.isArray(r.programs) ? r.programs : [],
+    }));
+  }
+  return payload;
 }
 
 async function apiSet(endpoint, data) {

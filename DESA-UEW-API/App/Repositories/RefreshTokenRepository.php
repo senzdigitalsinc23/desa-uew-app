@@ -12,13 +12,20 @@ class RefreshTokenRepository
 
     public function __construct(?PDO $db = null)
     {
-        $this->db = $db ?? \App\Core\Database::getInstance()->getConnection();
+        if ($db) {
+            $this->db = $db;
+            return;
+        }
+        $dbConfig = require __DIR__ . '/../../config/database.php';
+        $logger = new \App\Core\Logger(__DIR__ . '/../../storage/logs');
+        $database = new \App\Core\Database($dbConfig, $logger);
+        $this->db = $database->getConnection();
     }
 
     /**
      * Create a new refresh token for a user.
      */
-    public function create(string $userId, string $plainToken, ?string $ipAddress = null, ?string $userAgent = null): RefreshToken
+    public function create(string|int $userId, string $plainToken, ?string $ipAddress = null, ?string $userAgent = null): RefreshToken
     {
         $ttl = (int)($_ENV['JWT_REFRESH_TTL'] ?? 2592000); // 30 days default
         $expiresAt = time() + $ttl;
@@ -77,7 +84,7 @@ class RefreshTokenRepository
     /**
      * Revoke all tokens for a user (logout from all devices).
      */
-    public function revokeAllForUser(string $userId): int
+    public function revokeAllForUser(string|int $userId): int
     {
         $stmt = $this->db->prepare(
             "UPDATE refresh_tokens SET revoked_at = :now WHERE user_id = :user_id AND revoked_at IS NULL"
@@ -116,7 +123,7 @@ class RefreshTokenRepository
     /**
      * Get all active tokens for a user (for "remembered devices" list).
      */
-    public function findByUser(string $userId): array
+    public function findByUser(string|int $userId): array
     {
         $stmt = $this->db->prepare(
             "SELECT id, user_id, ip_address, user_agent, expires_at, created_at"

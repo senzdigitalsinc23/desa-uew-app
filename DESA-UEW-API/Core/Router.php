@@ -65,6 +65,23 @@ class Router
         $this->addRoute('DELETE', $uri, $action, $middleware, [], $requestClass);
     }
 
+    /**
+     * Register a catch-all route with custom regex (supports nested path segments).
+     */
+    public function addCatchAllRoute(string $method, string $uri, callable|array $action, array $middleware = [], array $docs = [], ?string $requestClass = null): void
+    {
+        $this->routes[] = [
+            'method'     => $method,
+            'uri'        => $uri,
+            'regex'      => '#^' . $uri . '$#',
+            'action'     => $action,
+            'middleware' => $middleware,
+            'docs'       => $docs,
+            'request'    => $requestClass,
+            'bindings'   => []
+        ];
+    }
+
     protected function addRoute(string $method, string $uri, callable|array $action, array $middleware = [], array $docs = [], ?string $requestClass = null): void
     {
         $regex = preg_replace('/\{([a-zA-Z0-9_]+)\}/', '(?P<$1>[^/]+)', $uri);

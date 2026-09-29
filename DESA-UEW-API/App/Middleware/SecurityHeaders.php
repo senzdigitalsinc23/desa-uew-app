@@ -26,9 +26,9 @@ class SecurityHeaders
             "default-src 'self'",
             "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://unpkg.com https://cdn.jsdelivr.net",
             "style-src 'self' 'unsafe-inline' https://unpkg.com https://cdn.jsdelivr.net",
-            "img-src 'self' data:",
+            "img-src 'self' data: http://localhost:8000 https://desa-stores.s3.us-east-1.amazonaws.com",
             "font-src 'self' https://unpkg.com https://cdn.jsdelivr.net",
-            "connect-src 'self'",
+            "connect-src 'self' http://localhost:8000",
             "object-src 'none'",
             "base-uri 'self'",
             "frame-ancestors 'none'"

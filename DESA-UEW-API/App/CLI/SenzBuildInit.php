@@ -88,14 +88,31 @@ class SenzBuildInit extends Command
 
         // Step 3: Load config and create database if requested
         if ($createDb) {
-            \App\Core\ConfigCache::setBasePath(__DIR__ . '/../../');
-            Config::load('/../../config');
+            // Use CWD as the project root so config/.env resolve correctly
+            // regardless of where the framework itself is installed.
+            $projectRoot = getcwd();
+
+            \App\Core\ConfigCache::setBasePath($projectRoot);
+            Config::load($projectRoot . '/config');
 
             $driver = Config::get('database.driver', 'mysql');
-            $host = Config::get('database.host', '127.0.0.1');
-            $dbname = $dbName ?? Config::get('database.dbname', '');
-            $user = Config::get('database.username', 'root');
-            $pass = Config::get('database.password', '');
+            $host   = Config::get('database.host', '127.0.0.1');
+            $user   = Config::get('database.username', 'root');
+            $pass   = Config::get('database.password', '');
+
+            // Read DB_NAME from the project's .env file directly (bypasses
+            // Dotenv safeLoad / $_ENV issues).
+            $envFile = $projectRoot . '/.env';
+            $envDbName = null;
+            if (is_file($envFile)) {
+                foreach (file($envFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $line) {
+                    if (strpos($line, 'DB_NAME=') === 0) {
+                        $envDbName = trim(explode('=', $line, 2)[1] ?? '', " \t\n\r\0\x0B\"'");
+                        break;
+                    }
+                }
+            }
+            $dbname = $dbName ?? $envDbName ?? Config::get('database.dbname', '');
 
             if (empty($dbname)) {
                 $this->error('DB_NAME not found in config/database.php and no --db=<name> argument given. Aborting.');
@@ -107,7 +124,7 @@ class SenzBuildInit extends Command
         }
 
         // Step 4: Check for migrations
-        $migrationsPath = __DIR__ . '/../../../Database/Migrations';
+        $migrationsPath = $projectRoot . '/Database/Migrations';
         if (!is_dir($migrationsPath)) {
             mkdir($migrationsPath, 0755, true);
             $this->info('Created Database/Migrations directory');

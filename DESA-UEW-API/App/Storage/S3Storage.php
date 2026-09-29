@@ -4,18 +4,16 @@ declare(strict_types=1);
 namespace App\Storage;
 
 use App\Interfaces\FileStorage;
-use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\Utils;
+use Aws\S3\S3Client;
 
 /**
  * Amazon S3 (or S3-compatible) implementation of FileStorage.
  *
- * Requires aws/aws-sdk-php or Guzzle with an S3 client.
- * Falls back gracefully if the SDK is not installed.
+ * Requires aws/aws-sdk-php.
  */
 class S3Storage implements FileStorage
 {
-    protected Client $client;
+    protected S3Client $client;
     protected string $bucket;
     protected string $region;
     protected string $baseUrl;
@@ -23,7 +21,7 @@ class S3Storage implements FileStorage
     protected ?string $acl;
 
     public function __construct(
-        Client   $client,
+        S3Client $client,
         string   $bucket,
         string   $region,
         ?string  $baseUrl = null,
@@ -46,13 +44,9 @@ class S3Storage implements FileStorage
         $params = [
             'Bucket' => $this->bucket,
             'Key'    => $key,
-            'Body'   => Utils::streamFor($contents),
+            'Body'   => $contents,
             'ContentType' => $mime,
         ];
-
-        if ($public) {
-            $params['ACL'] = 'public-read';
-        }
 
         $this->client->putObject($params);
 
@@ -103,8 +97,10 @@ class S3Storage implements FileStorage
     public function url(string $path, int $expireSeconds = 0): string
     {
         $key = ltrim($path, '/');
+        // Return a proxy URL through our PHP server to avoid CORS/S3 permission issues
+        // The catch-all route /api/v1/storage/{path} serves files from S3 with proper headers
         if ($expireSeconds > 0) {
-            // Generate a presigned URL
+            // Generate a presigned URL for temporary access
             $cmd = $this->client->getCommand('GetObject', [
                 'Bucket' => $this->bucket,
                 'Key'    => $key,
@@ -112,7 +108,8 @@ class S3Storage implements FileStorage
             $request = $this->client->createPresignedRequest($cmd, "+" . $expireSeconds . " seconds");
             return (string)$request->getUri();
         }
-        return $this->baseUrl . '/' . $key;
+        $appUrl = $_ENV['APP_URL'] ?? 'http://localhost:8000';
+        return rtrim($appUrl, '/') . '/api/v1/storage/' . $key;
     }
 
     public function size(string $path): int|false

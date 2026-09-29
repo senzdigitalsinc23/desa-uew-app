@@ -26,27 +26,27 @@
  *   DB_HOST=localhost\SQLEXPRESS  (include instance name if applicable)
  */
 
-$driver = $_ENV['DB_DRIVER'] ?? getenv('DB_DRIVER') ?: 'mysql';
+$driver = env('DB_DRIVER', 'mysql');
 
 // Common configuration
 $credentials = [
     'driver' => $driver,
-    'host'   => $_ENV['DB_HOST'] ?? getenv('DB_HOST') ?: '127.0.0.1',
-    'dbname' => $_ENV['DB_NAME'] ?? getenv('DB_NAME') ?: 'app_db',
-    'username' => $_ENV['DB_USER'] ?? getenv('DB_USER') ?: 'root',
-    'password' => $_ENV['DB_PASS'] ?? getenv('DB_PASS') ?: '',
+    'host'   => env('DB_HOST', '127.0.0.1'),
+    'dbname' => env('DB_NAME', 'app_db'),
+    'username' => env('DB_USER', 'root'),
+    'password' => env('DB_PASS', ''),
 ];
 
 // Driver-specific settings
 switch ($driver) {
     case 'mysql':
     case 'mysqli':
-        $credentials['charset'] = $_ENV['DB_CHARSET'] ?? 'utf8mb4';
+        $credentials['charset'] = env('DB_CHARSET', 'utf8mb4');
         break;
 
     case 'pgsql':
     case 'postgresql':
-        $credentials['port'] = (int) ($_ENV['DB_PORT'] ?? getenv('DB_PORT') ?: 5432);
+        $credentials['port'] = (int) (env('DB_PORT', 5432));
         $credentials['charset'] = 'utf8';
         break;
 
@@ -61,7 +61,7 @@ switch ($driver) {
 
     case 'sqlsrv':
     case 'mssql':
-        $credentials['charset'] = $_ENV['DB_CHARSET'] ?? 'utf8';
+        $credentials['charset'] = env('DB_CHARSET', 'utf8');
         // SQL Server may use Windows auth
         if (empty($credentials['username']) && empty($credentials['password'])) {
             $credentials['trusted_connection'] = 'Yes';

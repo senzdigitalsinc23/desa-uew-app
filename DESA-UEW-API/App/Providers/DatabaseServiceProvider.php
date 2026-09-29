@@ -5,6 +5,8 @@ namespace App\Providers;
 
 use App\Core\Container;
 use App\Core\Interfaces\ServiceProviderInterface;
+use App\Core\Database;
+use App\Core\Logger;
 use App\Services\Database\MigrationRunner;
 use App\Services\Database\SeederRunner;
 use PDO;
@@ -13,6 +15,12 @@ class DatabaseServiceProvider implements ServiceProviderInterface
 {
     public function register(Container $app): void
     {
+        $app->singleton(Database::class, function($app) {
+            $config = \App\Core\Config::get('database', []);
+            $logger = new Logger(dirname(__DIR__, 2) . '/storage/logs/db.log');
+            return new Database($config, $logger);
+        });
+
         $app->singleton(PDO::class, function($app) {
             $driver  = \App\Core\Config::get('database.driver', 'mysql');
             $host    = \App\Core\Config::get('database.host', '127.0.0.1');

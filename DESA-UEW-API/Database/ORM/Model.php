@@ -39,10 +39,26 @@ abstract class Model
      */
     protected array $original = [];
 
+    public static function getDb(): PDO
+    {
+        static $pdo = null;
+        if ($pdo === null) {
+            $dbConfig = require __DIR__ . '/../../config/database.php';
+            $logger = new \App\Core\Logger(__DIR__ . '/../../storage/logs');
+            $database = new Database($dbConfig, $logger);
+            $pdo = $database->getConnection();
+        }
+        return $pdo;
+    }
+
     public function __construct(array $attributes = [])
     {
         if (!empty($attributes)) {
-            $this->fill($attributes);
+            // Direct assignment from DB — skip guarded/fillable checks
+            foreach ($attributes as $key => $value) {
+                $this->attributes[$key] = $value;
+            }
+            $this->original = $this->attributes;
         }
     }
 
@@ -203,7 +219,7 @@ abstract class Model
     public static function query(): QueryBuilder
     {
         // Switch to tenant database if applicable
-        $tenantId = \App\Core\TenantMiddleware::getCurrentTenantId();
+        $tenantId = \App\Middleware\TenantMiddleware::getCurrentTenantId();
         if ($tenantId !== null && \App\Core\TenantDatabase::hasTenant($tenantId)) {
             \App\Core\TenantDatabase::connection($tenantId);
         }
@@ -240,7 +256,7 @@ abstract class Model
     public static function find(int $id): ?static
     {
         $table = static::$table;
-        $db = Database::getInstance()->getConnection();
+        $db = static::getDb();
 
         $sql = "SELECT * FROM {$table} WHERE id = :id LIMIT 1";
         $stmt = $db->prepare($sql);
@@ -261,7 +277,7 @@ abstract class Model
             $this->preSave();
         }
 
-        $db = Database::getInstance()->getConnection();
+        $db = static::getDb();
         $id = $this->getId();
 
         if ($id) {
@@ -318,7 +334,7 @@ abstract class Model
             throw new \InvalidArgumentException('Invalid column name');
         }
 
-        $db = Database::getInstance()->getConnection();
+        $db = static::getDb();
 
         $sql = "SELECT * FROM {$table} WHERE {$column} = :value LIMIT 1";
         $stmt = $db->prepare($sql);
@@ -345,7 +361,7 @@ abstract class Model
             }
         }
 
-        $db = Database::getInstance()->getConnection();
+        $db = static::getDb();
 
         $columns = array_filter(array_keys($filtered), function ($col) {
             if (!preg_match('/^[a-zA-Z0-9_]+$/', $col)) {
@@ -458,7 +474,7 @@ abstract class Model
         if (!static::$softDelete) {
             return 0;
         }
-        $db = Database::getInstance()->getConnection();
+        $db = static::getDb();
         $stmt = $db->prepare("SELECT COUNT(*) as cnt FROM `" . static::$table . "` WHERE deleted_at IS NOT NULL");
         $stmt->execute();
         return (int)$stmt->fetch(PDO::FETCH_ASSOC)['cnt'];

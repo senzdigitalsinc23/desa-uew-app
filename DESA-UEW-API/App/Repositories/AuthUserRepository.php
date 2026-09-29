@@ -22,7 +22,7 @@ class AuthUserRepository
         $this->logger = $logger ?? new Logger(dirname(__DIR__, 2) . '/storage/logs');
     }
 
-    public function findById(string $id): ?UserDTO
+    public function findById(string|int $id): ?UserDTO
     {
         $key = self::CACHE_PFX . 'id:' . $id;
         $hit = $this->cache->get($key);
@@ -93,7 +93,7 @@ class AuthUserRepository
         return $user;
     }
 
-    public function updateLastLogin(string $id): void
+    public function updateLastLogin(string|int $id): void
     {
         User::query()->where('id', $id)->update(['last_login' => date('Y-m-d H:i:s')]);
         $this->invalidateCache($id);
@@ -111,14 +111,14 @@ class AuthUserRepository
         return $ok;
     }
 
-    public function deactivate(string $id): bool
+    public function deactivate(string|int $id): bool
     {
         $ok = User::query()->where('id', $id)->update(['is_active' => 0]);
         $this->invalidateCache($id);
         return $ok;
     }
 
-    private function invalidateCache(string $id): void
+    private function invalidateCache(string|int $id): void
     {
         $this->cache->forget(self::CACHE_PFX . 'id:' . $id);
     }

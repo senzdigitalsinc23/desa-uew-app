@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   X,
@@ -17,24 +17,66 @@ import {
   Star,
   GraduationCap,
 } from 'lucide-react';
-import { getPublicCentersData } from '../../data/persistence';
+import { getPublicCentersData } from '../../data/unifiedDirectory';
+import { fetchPrograms, fetchCenterCoordinators, fetchCenterHotels, fetchCenterHealth, fetchCenterRestaurants } from '../../services/api';
 
 export default function CenterDetailModal({ center, regionName, onClose }) {
   const [activeTab, setActiveTab] = useState('coordinator');
+  const [programs, setPrograms] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [coordinators, setCoordinators] = useState([]);
+  const [hotels, setHotels] = useState([]);
+  const [health, setHealth] = useState([]);
+  const [restaurants, setRestaurants] = useState([]);
+  const isApiMode = import.meta.env.VITE_DATA_SOURCE === 'api_access';
 
-  const programs = useMemo(() => {
-    if (!center?.id) return [];
-    const regions = getPublicCentersData();
-    const matched = [];
-    regions.forEach((region) => {
-      region.programs?.forEach((prog) => {
-        if (prog.centerIds?.includes(center.id)) {
-          matched.push({ ...prog, regionName: region.name });
+  useEffect(() => {
+    if (!center?.id) { setPrograms([]); return; }
+    let cancelled = false;
+    setLoading(true);
+    Promise.all([getPublicCentersData(), fetchPrograms()]).then(([regions, allPrograms]) => {
+      if (cancelled) return;
+      const progMap = {};
+      for (const prog of (allPrograms || [])) {
+        progMap[String(prog.id)] = prog;
+      }
+      const matched = [];
+      for (const region of (regions || [])) {
+        for (const prog of (region.programs || [])) {
+          const fullProg = progMap[String(prog.id)];
+          if (fullProg && (fullProg.available_centers || []).some((c) => String(c.id) === String(center.id))) {
+            matched.push({ ...prog, regionName: region.name });
+          }
         }
-      });
-    });
-    return matched;
+      }
+      setPrograms(matched);
+
+      // Load linked amenities from API for API mode
+      if (isApiMode && center.id) {
+        const id = String(center.id);
+        Promise.allSettled([
+          fetchCenterCoordinators(id),
+          fetchCenterHotels(id),
+          fetchCenterHealth(id),
+          fetchCenterRestaurants(id),
+        ]).then(([coordRes, hotelRes, healthRes, restRes]) => {
+          if (cancelled) return;
+          setCoordinators(coordRes.status === 'fulfilled' ? (coordRes.value || []) : []);
+          setHotels(hotelRes.status === 'fulfilled' ? (hotelRes.value || []) : []);
+          setHealth(healthRes.status === 'fulfilled' ? (healthRes.value || []) : []);
+          setRestaurants(restRes.status === 'fulfilled' ? (restRes.value || []) : []);
+        });
+      }
+      setLoading(false);
+    }).catch(() => { setPrograms([]); setLoading(false); });
+    return () => { cancelled = true; };
   }, [center?.id]);
+
+  const resolvedCoordinator = coordinators.length > 0 ? coordinators[0] : center.coordinator;
+  const resolvedCoordinators = coordinators.length > 0 ? coordinators : (center.coordinators || []);
+  const resolvedHotels = hotels.length > 0 ? hotels : (center.nearbyHotels || []);
+  const resolvedHealth = health.length > 0 ? health : (center.nearbyHealth || []);
+  const resolvedRestaurants = restaurants.length > 0 ? restaurants : (center.nearbyRestaurants || []);
 
   if (!center) return null;
 
@@ -103,22 +145,22 @@ export default function CenterDetailModal({ center, regionName, onClose }) {
           </div>
 
           {/* Navigation Tabs */}
-          <div className="flex items-center border-b border-slate-200 bg-slate-50 px-3 overflow-x-auto no-scrollbar">
+          <div className="flex items-center border-b border-slate-200 bg-slate-50 px-3 gap-1 overflow-x-auto">
             <button
               onClick={() => setActiveTab('coordinator')}
-              className={`flex items-center gap-2 px-4 py-3 text-xs md:text-sm font-bold border-b-2 transition-colors whitespace-nowrap ${
+              className={`flex items-center gap-2 px-4 py-3 text-xs md:text-sm font-bold border-b-2 transition-colors whitespace-nowrap flex-shrink-0 ${
                 activeTab === 'coordinator'
                   ? 'border-uew-red text-uew-red bg-white'
                   : 'border-transparent text-slate-600 hover:text-uew-navy'
               }`}
             >
               <User className="w-4 h-4" />
-              <span>Coordinator Details</span>
+              <span>Coordinator Details ({resolvedCoordinators.length})</span>
             </button>
 
             <button
               onClick={() => setActiveTab('programs')}
-              className={`flex items-center gap-2 px-4 py-3 text-xs md:text-sm font-bold border-b-2 transition-colors whitespace-nowrap ${
+              className={`flex items-center gap-2 px-4 py-3 text-xs md:text-sm font-bold border-b-2 transition-colors whitespace-nowrap flex-shrink-0 ${
                 activeTab === 'programs'
                   ? 'border-uew-red text-uew-red bg-white'
                   : 'border-transparent text-slate-600 hover:text-uew-navy'
@@ -130,45 +172,45 @@ export default function CenterDetailModal({ center, regionName, onClose }) {
 
             <button
               onClick={() => setActiveTab('hotels')}
-              className={`flex items-center gap-2 px-4 py-3 text-xs md:text-sm font-bold border-b-2 transition-colors whitespace-nowrap ${
+              className={`flex items-center gap-2 px-4 py-3 text-xs md:text-sm font-bold border-b-2 transition-colors whitespace-nowrap flex-shrink-0 ${
                 activeTab === 'hotels'
                   ? 'border-uew-red text-uew-red bg-white'
                   : 'border-transparent text-slate-600 hover:text-uew-navy'
               }`}
             >
               <Hotel className="w-4 h-4" />
-              <span>Nearby Hotels ({center.nearbyHotels?.length || 0})</span>
+              <span>Nearby Hotels ({resolvedHotels.length})</span>
             </button>
 
             <button
               onClick={() => setActiveTab('health')}
-              className={`flex items-center gap-2 px-4 py-3 text-xs md:text-sm font-bold border-b-2 transition-colors whitespace-nowrap ${
+              className={`flex items-center gap-2 px-4 py-3 text-xs md:text-sm font-bold border-b-2 transition-colors whitespace-nowrap flex-shrink-0 ${
                 activeTab === 'health'
                   ? 'border-uew-red text-uew-red bg-white'
                   : 'border-transparent text-slate-600 hover:text-uew-navy'
               }`}
             >
               <Activity className="w-4 h-4" />
-              <span>Health Facilities ({center.nearbyHealth?.length || 0})</span>
+              <span>Health Facilities ({resolvedHealth.length})</span>
             </button>
 
             <button
               onClick={() => setActiveTab('restaurants')}
-              className={`flex items-center gap-2 px-4 py-3 text-xs md:text-sm font-bold border-b-2 transition-colors whitespace-nowrap ${
+              className={`flex items-center gap-2 px-4 py-3 text-xs md:text-sm font-bold border-b-2 transition-colors whitespace-nowrap flex-shrink-0 ${
                 activeTab === 'restaurants'
                   ? 'border-uew-red text-uew-red bg-white'
                   : 'border-transparent text-slate-600 hover:text-uew-navy'
               }`}
             >
               <Utensils className="w-4 h-4" />
-              <span>Restaurants ({center.nearbyRestaurants?.length || 0})</span>
+              <span>Restaurants ({resolvedRestaurants.length})</span>
             </button>
           </div>
 
           {/* Modal Body / Tab Content */}
           <div className="p-5 md:p-6 overflow-y-auto flex-1 text-slate-700">
             {/* TAB 1: COORDINATOR */}
-            {activeTab === 'coordinator' && center.coordinator && (
+            {activeTab === 'coordinator' && resolvedCoordinator && (
               <div className="space-y-4">
                 <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200">
                   <div className="flex items-start gap-3">
@@ -177,10 +219,10 @@ export default function CenterDetailModal({ center, regionName, onClose }) {
                     </div>
                     <div className="flex-1">
                       <h4 className="text-base md:text-lg font-bold text-uew-navy">
-                        {center.coordinator.name}
+                        {resolvedCoordinator.full_name || resolvedCoordinator.name}
                       </h4>
                       <p className="text-xs font-semibold text-uew-red uppercase tracking-wider">
-                        {center.coordinator.title}
+                        {resolvedCoordinator.title}
                       </p>
                       <p className="text-xs text-slate-500 mt-1">
                         Official Centre Representative for Distance Education Students Association (DESA)
@@ -190,7 +232,7 @@ export default function CenterDetailModal({ center, regionName, onClose }) {
 
                   <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <a
-                      href={`tel:${center.coordinator.phone}`}
+                      href={`tel:${resolvedCoordinator.phone}`}
                       className="flex items-center gap-3 p-3 rounded-xl bg-white border border-slate-200 hover:border-uew-red hover:shadow-xs transition-all group"
                     >
                       <div className="p-2 rounded-lg bg-emerald-50 text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
@@ -198,12 +240,12 @@ export default function CenterDetailModal({ center, regionName, onClose }) {
                       </div>
                       <div>
                         <span className="text-[10px] text-slate-400 font-bold uppercase block">Phone / WhatsApp</span>
-                        <span className="text-xs font-bold text-slate-800">{center.coordinator.phone}</span>
+                        <span className="text-xs font-bold text-slate-800">{resolvedCoordinator.phone}</span>
                       </div>
                     </a>
 
                     <a
-                      href={`mailto:${center.coordinator.email}`}
+                      href={`mailto:${resolvedCoordinator.email}`}
                       className="flex items-center gap-3 p-3 rounded-xl bg-white border border-slate-200 hover:border-uew-red hover:shadow-xs transition-all group"
                     >
                       <div className="p-2 rounded-lg bg-blue-50 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors">
@@ -211,11 +253,29 @@ export default function CenterDetailModal({ center, regionName, onClose }) {
                       </div>
                       <div>
                         <span className="text-[10px] text-slate-400 font-bold uppercase block">Official Email</span>
-                        <span className="text-xs font-bold text-slate-800 truncate block max-w-[180px]">{center.coordinator.email}</span>
+                        <span className="text-xs font-bold text-slate-800 truncate block max-w-[180px]">{resolvedCoordinator.email}</span>
                       </div>
                     </a>
                   </div>
                 </div>
+
+                {/* Multiple coordinators list */}
+                {resolvedCoordinators.length > 1 && (
+                  <div>
+                    <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Additional Coordinators</p>
+                    <div className="space-y-2">
+                      {resolvedCoordinators.slice(1).map((co, idx) => (
+                        <div key={idx} className="p-3 rounded-xl bg-white border border-slate-200 flex items-center gap-3">
+                          <div className="p-2 rounded-lg bg-slate-100 text-slate-500"><User className="w-4 h-4" /></div>
+                          <div>
+                            <p className="text-sm font-bold text-uew-navy">{co.full_name || co.name}</p>
+                            <p className="text-[11px] text-slate-500">{co.title} · {co.phone}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
 
                 {/* Consultation Details */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -225,7 +285,7 @@ export default function CenterDetailModal({ center, regionName, onClose }) {
                       <span>Coordinator Office Location</span>
                     </div>
                     <p className="text-xs md:text-sm font-semibold text-slate-800">
-                      {center.coordinator.office}
+                      {resolvedCoordinator.office}
                     </p>
                   </div>
 
@@ -235,7 +295,7 @@ export default function CenterDetailModal({ center, regionName, onClose }) {
                       <span>Consultation Hours</span>
                     </div>
                     <p className="text-xs md:text-sm font-semibold text-slate-800">
-                      {center.coordinator.hours}
+                      {resolvedCoordinator.office_hours || resolvedCoordinator.hours}
                     </p>
                   </div>
                 </div>
@@ -284,8 +344,8 @@ export default function CenterDetailModal({ center, regionName, onClose }) {
                   Verified guest houses and hotels near {center.name} suitable for weekend tutorial stays and examination periods:
                 </p>
 
-                {center.nearbyHotels && center.nearbyHotels.length > 0 ? (
-                  center.nearbyHotels.map((hotel, idx) => (
+                {resolvedHotels.length > 0 ? (
+                  resolvedHotels.map((hotel, idx) => (
                     <div
                       key={idx}
                       className="p-4 rounded-2xl bg-white border border-slate-200 hover:border-uew-red/40 hover:shadow-sm transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3"
@@ -305,21 +365,25 @@ export default function CenterDetailModal({ center, regionName, onClose }) {
                         <div className="flex flex-wrap items-center gap-3 text-xs text-slate-500">
                           <span className="flex items-center gap-1">
                             <Navigation className="w-3.5 h-3.5 text-uew-red" />
-                            {hotel.distance}
+                            {hotel.distance || hotel.distance_range || 'Nearby'}
                           </span>
-                          <span className="font-semibold text-slate-700 bg-slate-100 px-2 py-0.5 rounded-md">
-                            Est. {hotel.rate}
-                          </span>
+                          {hotel.rate_range && (
+                            <span className="font-semibold text-slate-700 bg-slate-100 px-2 py-0.5 rounded-md">
+                              Est. {hotel.rate_range}
+                            </span>
+                          )}
                         </div>
                       </div>
 
-                      <a
-                        href={`tel:${hotel.phone}`}
-                        className="inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-red-50 text-slate-700 hover:text-uew-red text-xs font-bold transition-colors border border-slate-200"
-                      >
-                        <Phone className="w-3.5 h-3.5 text-uew-red" />
-                        <span>Call {hotel.phone}</span>
-                      </a>
+                      {hotel.phone && (
+                        <a
+                          href={`tel:${hotel.phone}`}
+                          className="inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-red-50 text-slate-700 hover:text-uew-red text-xs font-bold transition-colors border border-slate-200"
+                        >
+                          <Phone className="w-3.5 h-3.5 text-uew-red" />
+                          <span>Call {hotel.phone}</span>
+                        </a>
+                      )}
                     </div>
                   ))
                 ) : (
@@ -335,34 +399,44 @@ export default function CenterDetailModal({ center, regionName, onClose }) {
                   Nearby medical centers, clinics, and emergency health services around the study center:
                 </p>
 
-                {center.nearbyHealth && center.nearbyHealth.length > 0 ? (
-                  center.nearbyHealth.map((health, idx) => (
+                {resolvedHealth.length > 0 ? (
+                  resolvedHealth.map((h, idx) => (
                     <div
                       key={idx}
                       className="p-4 rounded-2xl bg-white border border-slate-200 hover:border-uew-red/40 hover:shadow-sm transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3"
                     >
                       <div className="space-y-1">
                         <h5 className="text-sm md:text-base font-bold text-uew-navy">
-                          {health.name}
+                          {h.name}
                         </h5>
                         <div className="flex flex-wrap items-center gap-2 text-xs">
-                          <span className="px-2 py-0.5 rounded-md bg-red-50 text-uew-red font-bold border border-red-200 text-[10px]">
-                            {health.type}
-                          </span>
+                          {h.type && (
+                            <span className="px-2 py-0.5 rounded-md bg-red-50 text-uew-red font-bold border border-red-200 text-[10px]">
+                              {h.type}
+                            </span>
+                          )}
                           <span className="text-slate-500 flex items-center gap-1">
                             <Navigation className="w-3 h-3 text-slate-400" />
-                            {health.distance}
+                            {h.distance || 'Nearby'}
                           </span>
+                          {h.is_24_7 && (
+                            <span className="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 font-bold text-[10px] border border-emerald-200">
+                              24/7
+                            </span>
+                          )}
                         </div>
+                        {h.hours && <p className="text-[11px] text-slate-400">Hours: {h.hours}</p>}
                       </div>
 
-                      <a
-                        href={`tel:${health.phone}`}
-                        className="inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl bg-red-50 hover:bg-uew-red text-uew-red hover:text-white text-xs font-bold transition-colors border border-red-200"
-                      >
-                        <ShieldAlert className="w-3.5 h-3.5" />
-                        <span>Emergency: {health.phone}</span>
-                      </a>
+                      {h.phone && (
+                        <a
+                          href={`tel:${h.phone}`}
+                          className="inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl bg-red-50 hover:bg-uew-red text-uew-red hover:text-white text-xs font-bold transition-colors border border-red-200"
+                        >
+                          <ShieldAlert className="w-3.5 h-3.5" />
+                          <span>Emergency: {h.phone}</span>
+                        </a>
+                      )}
                     </div>
                   ))
                 ) : (
@@ -378,8 +452,8 @@ export default function CenterDetailModal({ center, regionName, onClose }) {
                   Recommended food spots, cafeterias, and chop bars for students during weekend lectures:
                 </p>
 
-                {center.nearbyRestaurants && center.nearbyRestaurants.length > 0 ? (
-                  center.nearbyRestaurants.map((food, idx) => (
+                {resolvedRestaurants.length > 0 ? (
+                  resolvedRestaurants.map((food, idx) => (
                     <div
                       key={idx}
                       className="p-4 rounded-2xl bg-white border border-slate-200 hover:border-uew-red/40 hover:shadow-sm transition-all space-y-1.5"
@@ -389,17 +463,28 @@ export default function CenterDetailModal({ center, regionName, onClose }) {
                           {food.name}
                         </h5>
                         <span className="text-[11px] font-semibold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-md">
-                          {food.distance}
+                          {food.distance || 'Nearby'}
                         </span>
                       </div>
 
-                      <p className="text-xs text-slate-600 font-medium">
-                        <strong className="text-uew-navy">Specialties:</strong> {food.specialty}
-                      </p>
-
+                      {food.specialty && (
+                        <p className="text-xs text-slate-600 font-medium">
+                          <strong className="text-uew-navy">Specialties:</strong> {food.specialty}
+                        </p>
+                      )}
+                      {food.cuisine_type && (
+                        <p className="text-xs text-slate-600 font-medium">
+                          <strong className="text-uew-navy">Cuisine:</strong> {food.cuisine_type}
+                        </p>
+                      )}
+                      {food.price_range && (
+                        <p className="text-xs text-slate-600 font-medium">
+                          <strong className="text-uew-navy">Price Range:</strong> {food.price_range}
+                        </p>
+                      )}
                       <div className="flex items-center gap-1 text-[11px] text-slate-400 font-medium">
                         <Clock className="w-3 h-3" />
-                        <span>Operating Hours: {food.openHours}</span>
+                        <span>Operating Hours: {food.open_hours || food.openHours || 'Varies'}</span>
                       </div>
                     </div>
                   ))

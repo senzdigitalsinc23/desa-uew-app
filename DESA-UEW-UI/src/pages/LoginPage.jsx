@@ -19,11 +19,9 @@ export default function LoginPage() {
     setError('');
     setLoading(true);
 
-    await new Promise((r) => setTimeout(r, 600));
-
-    const result = validateLogin(email.trim(), password);
+    const result = await validateLogin(email.trim(), password);
     if (result.success) {
-      login(result.user);
+      login(result.user, result.token);
       navigate('/admin');
     } else {
       setError(result.message);

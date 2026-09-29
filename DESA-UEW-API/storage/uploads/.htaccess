@@ -1,0 +1,12 @@
+# Allow direct access to uploaded files without going through index.php
+<IfModule mod_rewrite.c>
+    RewriteEngine Off
+</IfModule>
+
+# Prevent directory listing
+Options -Indexes
+
+# Set cache headers for uploaded files
+<FilesMatch "\.(jpg|jpeg|png|gif|webp|svg|pdf|doc|docx|xls|xlsx|mp4|mp3|zip|txt)$">
+    Header set Cache-Control "public, max-age=86400"
+</FilesMatch>

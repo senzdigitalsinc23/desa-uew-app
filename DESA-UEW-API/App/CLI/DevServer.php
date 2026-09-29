@@ -9,7 +9,9 @@ class DevServer extends Command
         $host = $args[0] ?? '127.0.0.1';
         $port = $args[1] ?? '8000';
 
-        $docRoot = realpath(__DIR__ . '/../../public');
+        // Use CWD as project root so the server serves the project, not the framework
+        $projectRoot = getcwd();
+        $docRoot = realpath($projectRoot . '/public');
 
         $this->info("Starting PHP built-in server at http://{$host}:{$port}");
         $this->info("Document root: {$docRoot}");

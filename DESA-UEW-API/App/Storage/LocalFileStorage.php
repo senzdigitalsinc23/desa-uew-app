@@ -83,9 +83,10 @@ class LocalFileStorage implements FileStorage
 
     public function url(string $path, int $expireSeconds = 0): string
     {
-        // Local URLs are relative to the web root
+        // Serve through the API proxy route to ensure proper CORS and access control
         $relative = ltrim($path, '/');
-        return '/storage/' . $relative;
+        $appUrl = $_ENV['APP_URL'] ?? 'http://localhost:8000';
+        return rtrim($appUrl, '/') . '/api/v1/storage/' . $relative;
     }
 
     public function size(string $path): int|false

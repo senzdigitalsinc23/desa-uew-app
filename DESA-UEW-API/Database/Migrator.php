@@ -55,13 +55,14 @@ class Migrator
             require_once $this->migrationsPath . DIRECTORY_SEPARATOR . $file;
 
             $className = $this->getClassNameFromFile($file);
-            if (!class_exists($className)) {
-                echo "Migration class {$className} not found in {$file}\n";
+            $fullClassName = 'Database\\Migrations\\' . $className;
+            if (!class_exists($fullClassName)) {
+                echo "Migration class {$fullClassName} not found in {$file}\n";
                 continue;
             }
 
             /** @var Migration $migration */
-            $migration = new $className($this->db);
+            $migration = new $fullClassName($this->db);
 
             echo "Migrating: {$file} ...";
             $migration->up();
@@ -87,17 +88,13 @@ class Migrator
         // Remove extension
         $name = pathinfo($file, PATHINFO_FILENAME);
 
-        // Example: 20250811120000_create_users_table => CreateUsersTable20250811120000
-        if (preg_match('/^(\d+)_(.+)$/', $name, $matches)) {
-            $timestamp = $matches[1];
-            $classPart = $matches[2];
-
-            // Convert to CamelCase
+        // Example: 20250811120000_create_users_table => CreateUsersTable
+        if (preg_match('/^\d+_(.+)$/', $name, $matches)) {
+            $classPart = $matches[1];
             $classPart = str_replace('_', ' ', $classPart);
             $classPart = ucwords($classPart);
             $classPart = str_replace(' ', '', $classPart);
-
-            return $classPart . $timestamp;
+            return $classPart;
         }
 
         // fallback, sanitize name
@@ -121,13 +118,14 @@ class Migrator
             require_once $this->migrationsPath . DIRECTORY_SEPARATOR . $migrationFile;
 
             $className = $this->getClassNameFromFile($migrationFile);
-            if (!class_exists($className)) {
-                echo "Migration class {$className} not found in {$migrationFile}\n";
+            $fullClassName = 'Database\\Migrations\\' . $className;
+            if (!class_exists($fullClassName)) {
+                echo "Migration class {$fullClassName} not found in {$migrationFile}\n";
                 continue;
             }
 
             /** @var Migration $migration */
-            $migration = new $className();
+            $migration = new $fullClassName();
 
             echo "Rolling back: {$migrationFile} ... ";
             $migration->down();

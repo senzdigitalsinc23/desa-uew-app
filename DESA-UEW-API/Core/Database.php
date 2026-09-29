@@ -9,9 +9,20 @@ use Throwable;
 
 class Database
 {
+    protected static ?Database $instance = null;
     protected PDO $connection;
     protected Logger $logger;
     protected string $driver;
+
+    public static function getInstance(): Database
+    {
+        if (self::$instance === null) {
+            $dbConfig = require __DIR__ . '/../config/database.php';
+            $logger = new Logger(__DIR__ . '/../storage/logs');
+            self::$instance = new self($dbConfig, $logger);
+        }
+        return self::$instance;
+    }
 
     public function __construct(array $config, Logger $logger)
     {
@@ -132,18 +143,16 @@ class Database
     {
         $columns = array_keys($data);
         $placeholders = array_fill(0, count($columns), '?');
-        $sql = "INSERT INTO {$table} (" . implode(', ', $columns) . ") VALUES (" . implode(', ', $placeholders) . ")";
+        $sql = "INSERT INTO `{$table}` (" . implode(', ', array_map(fn($c) => "`{$c}`", $columns))
+             . ") VALUES (" . implode(', ', $placeholders) . ")";
         $this->query($sql, array_values($data));
         return (int) $this->connection->lastInsertId();
     }
 
     public function update(string $table, array $data, string $where, array $whereParams = []): int
     {
-        $sets = [];
-        foreach ($data as $key => $value) {
-            $sets[] = "{$key} = ?";
-        }
-        $sql = "UPDATE {$table} SET " . implode(', ', $sets) . " WHERE {$where}";
+        $sets = array_map(fn($k) => "`{$k}` = ?", array_keys($data));
+        $sql = "UPDATE `{$table}` SET " . implode(', ', $sets) . " WHERE {$where}";
         $stmt = $this->connection->prepare($sql);
         $stmt->execute(array_merge(array_values($data), $whereParams));
         return $stmt->rowCount();
@@ -151,7 +160,7 @@ class Database
 
     public function delete(string $table, string $where, array $params = []): int
     {
-        $sql = "DELETE FROM {$table} WHERE {$where}";
+        $sql = "DELETE FROM `{$table}` WHERE {$where}";
         $stmt = $this->connection->prepare($sql);
         $stmt->execute($params);
         return $stmt->rowCount();

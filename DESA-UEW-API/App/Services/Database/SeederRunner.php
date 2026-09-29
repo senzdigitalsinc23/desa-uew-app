@@ -61,8 +61,15 @@ class SeederRunner
     private function deriveClassName(string $filePath): ?string
     {
         $content = file_get_contents($filePath);
-        if (preg_match('/class\s+([a-zA-Z0-9_\\\-]+)\s+extends\s+Seeder/', $content, $matches)) {
-            return $matches[1];
+        // First try to extract namespace + class from the file
+        if (preg_match('/namespace\s+([a-zA-Z0-9_\\\\]+);/', $content, $nsMatches)) {
+            $namespace = $nsMatches[1];
+        } else {
+            $namespace = '';
+        }
+        if (preg_match('/class\s+([a-zA-Z0-9_]+)\s+extends\s+Seeder/', $content, $matches)) {
+            $className = $matches[1];
+            return $namespace ? $namespace . '\\' . $className : $className;
         }
 
         $filename = basename($filePath, '.php');
