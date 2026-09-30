@@ -33,7 +33,7 @@ async function compressImage(file) {
   });
 }
 
-const API_BASE = import.meta.env.VITE_API_BASE_URI || 'http://localhost:8000/api/v1';
+const API_BASE = import.meta.env.VITE_API_BASE_URI || '/api/v1';
 
 export default function FileUpload({ onUploaded, defaultCategory = 'gallery', maxSizeMB = 50 }) {
   const [dragging, setDragging] = useState(false);

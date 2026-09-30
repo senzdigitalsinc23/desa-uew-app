@@ -1,7 +1,29 @@
-/DESA-UEW-API/.env
-/DESA-UEW-API/vendor/.gitignore
-/DESA-UEW-UI/.env
-/DESA-UEW-UI/node_modules
-/DESA-UEW-UI/dist
-/DESA-UEW-UI/.git
-/DESA-UEW-API/.git
+# ── Local overrides (never commit) ───────────────────────────────────
+DESA-UEW-API/.env
+DESA-UEW-UI/.env
+DESA-UEW-UI/.env.local
+
+# ── Dependencies ─────────────────────────────────────────────────────
+DESA-UEW-API/vendor/
+DESA-UEW-UI/node_modules/
+
+# ── Build output ─────────────────────────────────────────────────────
+DESA-UEW-UI/dist/
+
+# ── IDE / OS ─────────────────────────────────────────────────────────
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# ── Logs & uploads ───────────────────────────────────────────────────
+*.log
+php-server.log
+DESA-UEW-API/storage/logs/*.log
+DESA-UEW-API/storage/uploads/*
+!DESA-UEW-API/storage/uploads/.htaccess
+
+# ── Docker local volumes ─────────────────────────────────────────────
+docker/mysql/data/
+
+/desa-mobile

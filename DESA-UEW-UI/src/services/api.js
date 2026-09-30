@@ -1,4 +1,4 @@
-const API_BASE = import.meta.env.VITE_API_BASE_URI || 'http://localhost:8000/api/v1';
+const API_BASE = import.meta.env.VITE_API_BASE_URI || '/api/v1';
 const DATA_SOURCE = import.meta.env.VITE_DATA_SOURCE || 'local_files';
 const isApiMode = DATA_SOURCE === 'api_access';
 

@@ -4,18 +4,27 @@
 (function () {
     $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
 
-    // Read allowed origins from .env without full framework boot
-    $allowed = ['http://localhost:3000'];
-    $envFile  = dirname(__DIR__) . '/.env';
-    if ($origin && file_exists($envFile)) {
-        foreach (file($envFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $line) {
-            $line = trim($line);
-            if (str_starts_with($line, 'CORS_ALLOWED_ORIGINS=')) {
-                $val     = trim(substr($line, strlen('CORS_ALLOWED_ORIGINS=')), " \t\"'");
-                $allowed = array_map('trim', explode(',', $val));
-                break;
+    // Read allowed origins from .env file OR environment variables
+    $allowed = [];
+    $envVar = getenv('CORS_ALLOWED_ORIGINS');
+    if ($envVar) {
+        $allowed = array_map('trim', explode(',', $envVar));
+    } else {
+        $envFile = dirname(__DIR__) . '/.env';
+        if ($origin && file_exists($envFile)) {
+            foreach (file($envFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $line) {
+                $line = trim($line);
+                if (str_starts_with($line, 'CORS_ALLOWED_ORIGINS=')) {
+                    $val = trim(substr($line, strlen('CORS_ALLOWED_ORIGINS=')), " \t\"'");
+                    $allowed = array_map('trim', explode(',', $val));
+                    break;
+                }
             }
         }
+    }
+
+    if (empty($allowed)) {
+        $allowed = ['http://localhost:3000'];
     }
 
     $isAllowed = !$origin || in_array($origin, $allowed, true) || in_array('*', $allowed, true);

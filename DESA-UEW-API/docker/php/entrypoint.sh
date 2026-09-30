@@ -8,16 +8,14 @@ for i in $(seq 1 30); do
 done
 
 echo "==> Running database migrations..."
-php /var/www/tools/run_migrations.php
+php /var/www/cli.php migrate 2>&1
 if [ $? -ne 0 ]; then
     echo "WARNING: Migrations failed. Check logs. Continuing anyway..."
 fi
 
-echo "==> Seeding admin accounts..."
-php /var/www/docker/php/seed_admin.php
-if [ $? -ne 0 ]; then
-    echo "WARNING: Seeding failed. Check logs. Continuing anyway..."
-fi
+echo "==> Seeding default admin user..."
+php /var/www/cli.php db:seed 2>&1 || true
 
 echo "==> Starting PHP-FPM..."
 exec php-fpm -F
+
