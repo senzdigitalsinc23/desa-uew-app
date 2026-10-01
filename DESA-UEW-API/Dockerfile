@@ -1,7 +1,6 @@
-# â”€â”€ Base: PHP 8.3 FPM with all extensions â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-FROM php:8.4-fpm-alpine AS base
+# ── Base: PHP 8.3 FPM with all extensions ──────────────────────────
+FROM php:8.3-fpm-alpine AS base
 
-# Update packages first
 RUN apk update && apk add --no-cache \
     bash \
     curl \
@@ -14,38 +13,24 @@ RUN apk update && apk add --no-cache \
     libxml2-dev \
     zip \
     unzip \
-    git \
-    autoconf
+    git
 
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install -j$(nproc) \
-    pdo \
-    pdo_mysql \
-    mbstring \
-    intl \
-    bcmath \
-    gd \
-    zip \
-    opcache \
-    xml \
-    soap
-
-# Redis build dependencies
-RUN apk add --no-cache \
-    $PHPIZE_DEPS \
-    linux-headers \
-    autoconf \
-    gcc \
-    g++ \
-    make \
-    pkgconf
-
-# Install Redis extension (requires autoconf)
-RUN pecl install redis && docker-php-ext-enable redis
+  && docker-php-ext-install -j$(nproc) \
+      pdo \
+      pdo_mysql \
+      mbstring \
+      intl \
+      bcmath \
+      gd \
+      zip \
+      opcache \
+      xml \
+      soap
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# â”€â”€ Production â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# ── Production ─────────────────────────────────────────────────────
 FROM base AS production
 
 WORKDIR /var/www
@@ -55,9 +40,6 @@ RUN composer install --no-dev --optimize-autoloader --no-scripts \
     && composer dump-autoload --optimize
 
 COPY . .
-
-# Copy nginx config into container (for reference, not used by PHP)
-COPY docker/nginx/default.conf /etc/nginx/conf.d/default.conf.bak
 
 # Create symlinks for CLI tools
 RUN ln -sf /var/www/vendor /var/www/tools/vendor \
