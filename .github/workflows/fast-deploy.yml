@@ -1,0 +1,43 @@
+# ── Fast Deploy: Git Push to Deploy ──────────────────────────────
+# After the main workflow builds images, this triggers a lighter deploy
+# that just pulls existing images (faster, no rebuild)
+
+name: Fast Deploy (Pull & Restart)
+
+on:
+  push:
+    branches: [main, master, staging]
+  workflow_dispatch:
+
+env:
+  IMAGE_TAG: latest
+  APP_DIR: /opt/desa-uew
+
+jobs:
+  deploy:
+    name: Deploy (Fast Path)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_KEY }}
+          port: 22
+          script: |
+            set -e
+            cd "{{ env.APP_DIR }}"
+
+            echo "==> Pulling latest images..."
+            docker compose pull
+
+            echo "==> Restarting services..."
+            docker compose up -d --force-recreate
+
+            echo "==> Checking health..."
+            sleep 10
+            docker compose ps
+
+            echo "==> Logs (last 30 lines):"
+            docker compose logs --tail=30 api
