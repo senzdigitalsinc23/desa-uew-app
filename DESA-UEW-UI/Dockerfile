@@ -1,5 +1,5 @@
 # ── Multi-stage: build React app ───────────────────────────────────
-FROM node:20-alpine AS ui-build
+FROM node:24-alpine AS ui-build
 
 WORKDIR /app
 

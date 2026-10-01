@@ -62,7 +62,7 @@ docker compose up -d --build
 ```
 
 This builds two images:
-- `desa-api` — PHP 8.4 FPM with all Composer dependencies
+- `desa-api` — PHP 8.3 FPM with all Composer dependencies
 - `desa-nginx` — Nginx serving the React build (built inside the container)
 
 ### 4. Verify
@@ -196,6 +196,19 @@ docker compose up -d
 # Migrations run automatically on first boot
 ```
 
+### Docker build fails (packages not found)
+```bash
+# Make sure your server has internet access during build
+# Try building with verbose output:
+docker compose build --progress=plain app
+
+# If Alpine packages fail, check your server's DNS/resolvers:
+docker run --rm alpine cat /etc/resolv.conf
+
+# Alternative: use PHP 8.3 instead of 8.4 (more stable on Alpine)
+# The Dockerfile already uses 8.3
+```
+
 ---
 
 ## File Structure
@@ -207,7 +220,7 @@ docker compose up -d
 ├── .env                        # Secrets (never commit)
 ├── DEPLOY.md                   # This file
 ├── DESA-UEW-API/
-│   ├── Dockerfile              # PHP 8.4 FPM production image
+│   ├── Dockerfile              # PHP 8.3 FPM production image
 │   ├── .dockerignore
 │   └── docker/php/
 │       ├── entrypoint.sh       # Waits for DB, runs migrations

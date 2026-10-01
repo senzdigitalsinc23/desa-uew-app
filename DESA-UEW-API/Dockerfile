@@ -1,7 +1,8 @@
-# ── Base: PHP 8.4 FPM with all extensions ──────────────────────────
-FROM php:8.4-fpm-alpine AS base
+# ── Base: PHP 8.3 FPM with all extensions ──────────────────────────
+FROM php:8.3-fpm-alpine AS base
 
-RUN apk add --no-cache \
+# Update packages first
+RUN apk update && apk add --no-cache \
     bash \
     curl \
     freetype-dev \
@@ -14,7 +15,9 @@ RUN apk add --no-cache \
     zip \
     unzip \
     git \
-  && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    autoconf
+
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
   && docker-php-ext-install -j$(nproc) \
       pdo \
       pdo_mysql \
@@ -25,10 +28,10 @@ RUN apk add --no-cache \
       zip \
       opcache \
       xml \
-      soap \
-  && pecl install redis \
-  && docker-php-ext-enable redis \
-  && pecl clear-cache
+      soap
+
+# Install Redis extension (requires autoconf)
+RUN pecl install redis && docker-php-ext-enable redis
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
