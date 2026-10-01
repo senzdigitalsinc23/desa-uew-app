@@ -1,5 +1,5 @@
 # ── Base: PHP 8.3 FPM with all extensions ──────────────────────────
-FROM php:8.3-fpm-alpine AS base
+FROM php:8.4-fpm-alpine AS base
 
 # Update packages first
 RUN apk update && apk add --no-cache \
@@ -29,9 +29,6 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
       opcache \
       xml \
       soap
-
-# Install Redis extension (requires autoconf)
-RUN pecl install redis && docker-php-ext-enable redis
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 

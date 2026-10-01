@@ -1,5 +1,5 @@
 services:
-  # ── PHP-FPM API ──────────────────────────────────────────────────────
+  # â”€â”€ PHP-FPM API â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   app:
     build:
       context: ./DESA-UEW-API
@@ -40,13 +40,13 @@ services:
     networks:
       - desa-net
     healthcheck:
-      test: ["CMD", "php", "-r", "try{new PDO('mysql:host=db',getenv('DB_USER'),getenv('DB_PASS'));exit(0);}catch(Exception\$e){exit(1);}"]
+      test: [ "CMD", "php", "-r", "try{new PDO('mysql:host=db;dbname=$DB_NAME',$DB_USER,$DB_PASS);exit(0);}catch(Exception $$e){exit(1);}" ]
       interval: 30s
       timeout: 10s
       retries: 5
       start_period: 30s
 
-  # ── Nginx (serves React + proxies /api → PHP-FPM) ──────────────────
+  # â”€â”€ Nginx (serves React + proxies /api â†’ PHP-FPM) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   nginx:
     build:
       context: ./DESA-UEW-UI
@@ -63,7 +63,7 @@ services:
       app:
         condition: service_healthy
 
-  # ── MySQL ───────────────────────────────────────────────────────────
+  # â”€â”€ MySQL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   db:
     image: mysql:8.0
     container_name: desa-db

@@ -41,7 +41,7 @@
             "Jobs\\": "jobs/"
         },
         "files": [
-            "Core/helpers.php"
+            "Core/Helpers.php"
         ]       
     },
     "autoload-dev": {
