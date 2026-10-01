@@ -40,7 +40,7 @@ services:
     networks:
       - desa-net
     healthcheck:
-      test: [ "CMD", "php", "-r", "try{new PDO('mysql:host=db;dbname=$DB_NAME',$DB_USER,$DB_PASS);exit(0);}catch(Exception $$e){exit(1);}" ]
+      test: ["CMD", "php", "-r", "try{new PDO('mysql:host=db;dbname=$DB_NAME',$DB_USER,$DB_PASS);exit(0);}catch(Exception $$e){exit(1);}"]
       interval: 30s
       timeout: 10s
       retries: 5
@@ -51,19 +51,30 @@ services:
     build:
       context: ./DESA-UEW-UI
       dockerfile: Dockerfile
-    container_name: desa-nginx
+    container_name: desa-ui
     restart: unless-stopped
     ports:
-      - "${NGINX_PORT:-80}:80"
+      - "8003:80"
     volumes:
       - ./docker/nginx/staging.conf:/etc/nginx/conf.d/default.conf:ro
     networks:
       - desa-net
+      - proxy
+
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik_proxy"
+
+      - "traefik.http.routers.desaseek.rule=Host(`desaseek.senzdigitalsol.dpdns.org`)"
+      - "traefik.http.routers.desaseek.entrypoints=web"
+
+      - "traefik.http.services.desaseek.loadbalancer.server.port=80"
+
     depends_on:
       app:
         condition: service_healthy
 
-  # â”€â”€ MySQL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
   db:
     image: mysql:8.0
     container_name: desa-db
@@ -83,6 +94,9 @@ services:
 networks:
   desa-net:
     driver: bridge
+  proxy:
+     name: traefik_proxy
+     external: true
 
 volumes:
   db_data:
