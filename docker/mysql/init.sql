@@ -1,9 +1,7 @@
 -- DESA UEW initial database setup
--- This runs automatically on first container start via MySQL init scripts
+-- MySQL entrypoint creates the database and user automatically.
+-- This script ensures the app user has correct privileges.
 
-CREATE DATABASE IF NOT EXISTS `desa_db` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
--- Use the DB_USER and DB_PASS from environment (set by docker-compose)
--- MySQL entrypoint already creates this user, but we grant privileges here
-GRANT ALL PRIVILEGES ON `desa_db`.* TO '${DB_USER}'@'%';
+-- Grant privileges to the application user (created by MySQL entrypoint via MYSQL_USER/MYSQL_PASSWORD)
+GRANT ALL PRIVILEGES ON *.* TO '${MYSQL_USER}'@'%' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
