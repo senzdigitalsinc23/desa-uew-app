@@ -239,6 +239,7 @@ export async function downloadJSON(filename = 'desa-data.json') {
 // ─── Public getters for public data ──────────────────────────────────
 export async function getPublicCentersData() {
   const data = await getCentersData();
+  if (!Array.isArray(data)) return [];
   return data.map((region) => ({
     ...region,
     programs: region.programs?.filter((p) => p.public !== false) || [],
