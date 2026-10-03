@@ -40,10 +40,10 @@ services:
     networks:
       - desa-net
     healthcheck:
-      test: ["CMD-SHELL", "php -r 'new PDO(\"mysql:host=db;dbname=" . getenv(\"DB_NAME\") . "\",\"" . getenv(\"DB_USER\") . "\",\"" . getenv(\"DB_PASS\") . "\");' 2>/dev/null"]
-      interval: 10s
+      test: ["CMD-SHELL", "php -r 'try{new PDO(\"mysql:host=db\",getenv(\"DB_USER\"),getenv(\"DB_PASS\"));exit(0);}catch(Exception $e){exit(1);}' 2>/dev/null"]
+      interval: 15s
       timeout: 5s
-      retries: 15
+      retries: 5
       start_period: 30s
 
   # â”€â”€ Nginx (serves React + proxies /api â†’ PHP-FPM) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
