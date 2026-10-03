@@ -495,24 +495,26 @@ export async function getUnifiedDirectory() {
 
   // ── Fallback to local mock data if API returned nothing ───────────────
   if (items.length === 0) {
-    const mockData = getPublicMockDataLocal();
-    mockData.forEach((item) => {
-      items.push({
-        id: item.id,
-        systemType: 'academic',
-        category: item.category || 'DESA Hub',
-        title: item.title,
-        program: item.program || '',
-        level: item.level || '',
-        description: item.description || '',
-        date: item.date || '2025/2026 Academic Year',
-        fileSize: item.fileSize || 'PDF Document',
-        fileType: item.fileType || 'PDF Document',
-        downloadUrl: item.downloadUrl || '#',
-        tags: Array.isArray(item.tags) ? item.tags : [],
-        rawItem: item,
+    const mockData = await getPublicMockDataLocal();
+    if (Array.isArray(mockData)) {
+      mockData.forEach((item) => {
+        items.push({
+          id: item.id,
+          systemType: 'academic',
+          category: item.category || 'DESA Hub',
+          title: item.title,
+          program: item.program || '',
+          level: item.level || '',
+          description: item.description || '',
+          date: item.date || '2025/2026 Academic Year',
+          fileSize: item.fileSize || 'PDF Document',
+          fileType: item.fileType || 'PDF Document',
+          downloadUrl: item.downloadUrl || '#',
+          tags: Array.isArray(item.tags) ? item.tags : [],
+          rawItem: item,
+        });
       });
-    });
+    }
   }
 
   return items;
