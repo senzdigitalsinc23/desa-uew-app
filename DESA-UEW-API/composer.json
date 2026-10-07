@@ -20,7 +20,8 @@
         "aws/aws-sdk-php": "^3.0",
         "psr/http-server-middleware": "*",
         "psr/event-dispatcher": "*",
-        "psr/cache": "*"
+        "psr/cache": "*",
+        "psr/container": "^2.0"
     },
     "authors": [
         {

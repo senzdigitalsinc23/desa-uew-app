@@ -10,13 +10,13 @@ export default defineConfig({
     open: true,
     proxy: {
       '/api': {
-        target: 'http://localhost:8000',
+        target: 'https://api.senzapps.dpdns.org',
         changeOrigin: true,
         secure: false,
       },
     },
     allowedHosts: [
-      '4614-154-162-114-96.ngrok-free.app'
-    ]
+      'desaseek.senzapps.dpdns.org'
+    ],
   }
 })
