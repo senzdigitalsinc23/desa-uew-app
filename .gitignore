@@ -27,3 +27,5 @@ DESA-UEW-API/storage/uploads/*
 docker/mysql/data/
 
 /desa-mobile
+
+/DESA-UEW-API/storage/cache
