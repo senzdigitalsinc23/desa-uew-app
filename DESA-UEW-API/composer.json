@@ -39,14 +39,6 @@
             "Support\\": "Support/",
             "Repositories\\": "Repositories/"
         },
-        "classmap": [
-            "App/",
-            "App/Core/",
-            "Database/",
-            "Services/",
-            "Support/",
-            "Repositories/"
-        ],
         "files": [
             "Core/Helpers.php"
         ]
