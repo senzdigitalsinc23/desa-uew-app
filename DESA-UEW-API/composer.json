@@ -37,9 +37,7 @@
             "Database\\": "Database/",
             "Services\\": "Services/",
             "Support\\": "Support/",
-            "Repositories\\": "Repositories/",
-            "Models\\": "Models/",
-            "Jobs\\": "jobs/"
+            "Repositories\\": "Repositories/"
         },
         "classmap": [
             "App/",
@@ -47,9 +45,7 @@
             "Database/",
             "Services/",
             "Support/",
-            "Repositories/",
-            "Models/",
-            "Jobs/"
+            "Repositories/"
         ],
         "files": [
             "Core/Helpers.php"

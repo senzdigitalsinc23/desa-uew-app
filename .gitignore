@@ -28,4 +28,4 @@ docker/mysql/data/
 
 /desa-mobile
 
-/DESA-UEW-API/storage/cache
+/DESA-UEW-API/storage/cache/*.cache
